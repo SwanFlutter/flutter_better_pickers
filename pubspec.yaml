@@ -1,0 +1,29 @@
+name: flutter_better_pickers
+description: "This is a multi-picker package that includes several different modes, making it easy to use."
+version: 0.0.1
+homepage: "https://github.com/SwanFlutter/flutter_better_pickers"
+
+environment:
+  sdk: ^3.6.1
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  photo_manager_image_provider: ^2.2.0
+  photo_manager: ^3.6.4
+  loading_animation_widget: ^1.2.1
+  image_picker: ^1.1.2
+  flutter_saver: ^0.0.3
+  camerawesome: ^2.1.0
+  path: ^1.9.0
+  lucide_icons_flutter: ^1.2.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+
+flutter:
+
