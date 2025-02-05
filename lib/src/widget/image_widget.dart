@@ -6,12 +6,25 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 
 class ImageWidget extends StatefulWidget {
+  /// The size of the image widget.
   final Size size;
+
+  /// The instance of CustomPicker used within this widget.
   final CustomPicker widget;
+
+  /// The currently selected asset entity (can be null).
   AssetEntity? selectedEntity;
+
+  /// The list of all available asset entities.
   final List<AssetEntity> assetsList;
+
+  /// The list of selected asset entities.
   final List<AssetEntity> selectedAssetList;
+
+  /// Indicates whether a loading process is in progress.
   bool loading;
+
+  /// Constructor for the ImageWidget class.
 
   ImageWidget({
     super.key,
@@ -54,7 +67,8 @@ class _ImageWidgetState extends State<ImageWidget> {
                       : GridView.builder(
                           physics: const BouncingScrollPhysics(),
                           itemCount: widget.assetsList.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             crossAxisSpacing: 3,
                             mainAxisSpacing: 3,
@@ -63,7 +77,8 @@ class _ImageWidgetState extends State<ImageWidget> {
                           ),
                           itemBuilder: (context, index) {
                             AssetEntity assetEntity = widget.assetsList[index];
-                            return assetWidget(assetEntity, widget.widget.maxCount);
+                            return assetWidget(
+                                assetEntity, widget.widget.maxCount);
                           },
                         ),
                 )
@@ -130,7 +145,8 @@ class _ImageWidgetState extends State<ImageWidget> {
         ));
   }
 
-  void selectedAsset({required AssetEntity assetEntity, required int maxCount}) {
+  void selectedAsset(
+      {required AssetEntity assetEntity, required int maxCount}) {
     if (widget.selectedAssetList.contains(assetEntity)) {
       setState(() {
         widget.selectedAssetList.remove(assetEntity);

@@ -10,13 +10,28 @@ import 'package:flutter_saver/flutter_saver.dart';
 import 'package:path/path.dart' as path;
 
 class FileListScreen extends StatefulWidget {
+  /// The scroll controller for handling the scrolling behavior.
   final ScrollController scrollController;
+
+  /// The maximum number of files that can be selected.
   final int maxCountPickFiles;
+
+  /// Callback function triggered when files are selected.
   final OnMediaPicked onFilesSelected;
+
+  /// The overlay entry used for displaying the widget as an overlay.
   final OverlayEntry overlayEntry;
+
+  /// Callback function to toggle the visibility of the bottom sheet.
   final VoidCallback toggleSheet;
+
+  /// The text displayed when the file list is empty.
   final String textEmptyListFile;
+
+  /// The text style applied to the empty list message.
   final TextStyle textStyleEmptyListText;
+
+  /// Constructor for the FileListScreen class.
   const FileListScreen({
     super.key,
     required this.scrollController,
@@ -32,8 +47,10 @@ class FileListScreen extends StatefulWidget {
   State<FileListScreen> createState() => _FileListScreenState();
 }
 
-class _FileListScreenState extends State<FileListScreen> with AutomaticKeepAliveClientMixin {
-  final StreamController<List<FileSystemEntity>> _fileStreamController = StreamController<List<FileSystemEntity>>();
+class _FileListScreenState extends State<FileListScreen>
+    with AutomaticKeepAliveClientMixin {
+  final StreamController<List<FileSystemEntity>> _fileStreamController =
+      StreamController<List<FileSystemEntity>>();
   List<FileSystemEntity> selectedFiles = []; // لیست فایل‌های انتخاب‌شده
 
   void _sendSelectedFiles() {
@@ -52,7 +69,8 @@ class _FileListScreenState extends State<FileListScreen> with AutomaticKeepAlive
       List<FileSystemEntity> allFiles = [];
       if (Platform.isAndroid) {
         for (String dirType in publicDirectories) {
-          String directory = await ExternalPath.getExternalStoragePublicDirectory(dirType);
+          String directory =
+              await ExternalPath.getExternalStoragePublicDirectory(dirType);
           Directory dir = Directory(directory);
           if (await dir.exists()) {
             allFiles.addAll(await _getFilesRecursively(dir));
@@ -63,7 +81,8 @@ class _FileListScreenState extends State<FileListScreen> with AutomaticKeepAlive
         var publicDirectories = await getPublicDirectories();
         for (String? dirType in publicDirectories) {
           if (dirType != null) {
-            String? directory = await externalPathIos.getDirectoryPath(directory: dirType);
+            String? directory =
+                await externalPathIos.getDirectoryPath(directory: dirType);
             Directory dir = Directory(directory!);
             if (await dir.exists()) {
               allFiles.addAll(await _getFilesRecursively(dir));
@@ -87,10 +106,12 @@ class _FileListScreenState extends State<FileListScreen> with AutomaticKeepAlive
     }
   }
 
-  Future<List<FileSystemEntity>> _getFilesRecursively(Directory directory) async {
+  Future<List<FileSystemEntity>> _getFilesRecursively(
+      Directory directory) async {
     List<FileSystemEntity> files = [];
     try {
-      await for (var entity in directory.list(recursive: true, followLinks: true)) {
+      await for (var entity
+          in directory.list(recursive: true, followLinks: true)) {
         if (entity is File) {
           files.add(entity);
         }
@@ -151,24 +172,30 @@ class _FileListScreenState extends State<FileListScreen> with AutomaticKeepAlive
                           itemCount: files.length,
                           itemBuilder: (context, index) {
                             FileSystemEntity file = files[index];
-                            String fileExtension = path.extension(file.path).toLowerCase();
+                            String fileExtension =
+                                path.extension(file.path).toLowerCase();
                             bool isSelected = selectedFiles.contains(file);
 
                             return InkWell(
                               onTap: () => _toggleSelection(file),
                               child: Container(
-                                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10),
                                 decoration: BoxDecoration(
-                                  color: isSelected ? theme.primaryColorLight : theme.colorScheme.secondary,
+                                  color: isSelected
+                                      ? theme.primaryColorLight
+                                      : theme.colorScheme.secondary,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: theme.colorScheme.primary.withValues(alpha: 0.2),
+                                      color: theme.colorScheme.primary
+                                          .withValues(alpha: 0.2),
                                       offset: const Offset(2, 2),
                                       blurRadius: 10,
                                       spreadRadius: 1,
                                     ),
                                     BoxShadow(
-                                      color: theme.colorScheme.primary.withValues(alpha: 0.7),
+                                      color: theme.colorScheme.primary
+                                          .withValues(alpha: 0.7),
                                       offset: const Offset(-2, -2),
                                       blurRadius: 10,
                                       spreadRadius: 1,
@@ -244,7 +271,8 @@ class _FileListScreenState extends State<FileListScreen> with AutomaticKeepAlive
                 // دایره اصلی
                 InkResponse(
                   onTap: () {
-                    debugPrint('Selected files: ${selectedFiles.map((f) => f.path).toList()}');
+                    debugPrint(
+                        'Selected files: ${selectedFiles.map((f) => f.path).toList()}');
                     _sendSelectedFiles();
                     widget.toggleSheet();
                   },
@@ -267,7 +295,10 @@ class _FileListScreenState extends State<FileListScreen> with AutomaticKeepAlive
                       alignment: Alignment.center,
                       width: 35.0,
                       height: 35.0,
-                      decoration: BoxDecoration(color: theme.colorScheme.primary, shape: BoxShape.circle, border: Border.all(color: Colors.black, width: 2.0)),
+                      decoration: BoxDecoration(
+                          color: theme.colorScheme.primary,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.black, width: 2.0)),
                       child: Text(
                         '${selectedFiles.length}',
                         style: TextStyle(color: theme.colorScheme.onPrimary),

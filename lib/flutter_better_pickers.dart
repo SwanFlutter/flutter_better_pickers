@@ -372,7 +372,8 @@ class FlutterBetterPicker extends StatefulWidget {
   }
 }
 
-class _FlutterBetterPickerState extends State<FlutterBetterPicker> with AutomaticKeepAliveClientMixin {
+class _FlutterBetterPickerState extends State<FlutterBetterPicker>
+    with AutomaticKeepAliveClientMixin {
   AssetEntity? selectedEntity;
   AssetPathEntity? selectedAlbum;
   List<AssetPathEntity> albumList = [];
@@ -484,7 +485,8 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> with Automati
             Padding(
               padding: const EdgeInsets.only(right: 15.0),
               child: InkResponse(
-                child: Text(widget.confirmText, style: TextStyle(color: widget.confirmTextColor)),
+                child: Text(widget.confirmText,
+                    style: TextStyle(color: widget.confirmTextColor)),
                 onTap: () {
                   if (selectedAssetList.isEmpty && selectedEntity != null) {
                     selectedAssetList = [selectedEntity!];
@@ -515,7 +517,11 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> with Automati
             SizedBox(
               height: size.height * 0.40,
               child: image != null
-                  ? Image.file(fit: BoxFit.cover, height: size.height, width: size.width, File(image!.path))
+                  ? Image.file(
+                      fit: BoxFit.cover,
+                      height: size.height,
+                      width: size.width,
+                      File(image!.path))
                   : (selectedEntity == null)
                       ? const SizedBox.shrink()
                       : Stack(
@@ -567,7 +573,9 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> with Automati
                               child: Row(
                                 children: [
                                   Text(
-                                    selectedAlbum!.name == "Recent" ? "Gallery" : selectedAlbum!.name,
+                                    selectedAlbum!.name == "Recent"
+                                        ? "Gallery"
+                                        : selectedAlbum!.name,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 20.0,
@@ -594,7 +602,9 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> with Automati
                             });
                           },
                           icon: Icon(
-                            isMultiple == true ? Icons.add_a_photo_outlined : Icons.add_a_photo,
+                            isMultiple == true
+                                ? Icons.add_a_photo_outlined
+                                : Icons.add_a_photo,
                             color: widget.iconGalleryColor,
                           ),
                         ),
@@ -614,15 +624,18 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> with Automati
                     child: assetsList.isEmpty
                         ? Center(
                             child: isLoding
-                                ? widget.loading ?? const CircularProgressIndicator.adaptive()
+                                ? widget.loading ??
+                                    const CircularProgressIndicator.adaptive()
                                 : Text(
                                     widget.textEmptyList,
-                                    style: TextStyle(color: widget.nullColorText),
+                                    style:
+                                        TextStyle(color: widget.nullColorText),
                                   ),
                           )
                         : GridView.builder(
                             physics: const BouncingScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 4,
                               mainAxisSpacing: 1,
                               crossAxisSpacing: 1,
@@ -671,7 +684,9 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> with Automati
                 Navigator.pop(context);
               },
               title: Text(
-                albumList[index].name == "Recent" ? "Gallery" : albumList[index].name,
+                albumList[index].name == "Recent"
+                    ? "Gallery"
+                    : albumList[index].name,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
@@ -728,7 +743,9 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> with Automati
             ),
           Positioned.fill(
             child: Container(
-              color: assetEntity == selectedEntity ? Colors.white60 : Colors.transparent,
+              color: assetEntity == selectedEntity
+                  ? Colors.white60
+                  : Colors.transparent,
             ),
           ),
           if (isMultiple == true)
@@ -743,7 +760,9 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> with Automati
                     padding: const EdgeInsets.all(5.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: selectedAssetList.contains(assetEntity) == true ? Colors.blue : Colors.white12,
+                        color: selectedAssetList.contains(assetEntity) == true
+                            ? Colors.blue
+                            : Colors.white12,
                         shape: BoxShape.circle,
                         border: Border.all(
                           width: 1.5,
@@ -755,7 +774,10 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> with Automati
                         child: Text(
                           "${selectedAssetList.indexOf(assetEntity) + 1}",
                           style: TextStyle(
-                            color: selectedAssetList.contains(assetEntity) == true ? Colors.white : Colors.transparent,
+                            color:
+                                selectedAssetList.contains(assetEntity) == true
+                                    ? Colors.white
+                                    : Colors.transparent,
                           ),
                         ),
                       ),
@@ -786,7 +808,8 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> with Automati
       final pickedImageFile = await ImagePicker().pickImage(
         source: source,
         imageQuality: widget.cameraImageSettings?.imageQuality,
-        preferredCameraDevice: widget.cameraImageSettings!.preferredCameraDevice,
+        preferredCameraDevice:
+            widget.cameraImageSettings!.preferredCameraDevice,
         maxWidth: widget.cameraImageSettings!.maxWidth,
         maxHeight: widget.cameraImageSettings!.maxHeight,
       );

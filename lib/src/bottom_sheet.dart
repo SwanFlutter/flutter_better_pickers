@@ -107,7 +107,8 @@ class BottomSheets extends StatefulWidget {
   State<BottomSheets> createState() => _BottomSheetsState();
 }
 
-class _BottomSheetsState extends State<BottomSheets> with AutomaticKeepAliveClientMixin {
+class _BottomSheetsState extends State<BottomSheets>
+    with AutomaticKeepAliveClientMixin {
   AssetPathEntity? selectedAlbum;
   AssetEntity? selectedEntity;
   List<AssetPathEntity> albumList = [];
@@ -145,7 +146,8 @@ class _BottomSheetsState extends State<BottomSheets> with AutomaticKeepAliveClie
     List<int> fileCounts = [];
     List<File?> firstImages = [];
     try {
-      List<AssetPathEntity> albums = await mediaServices.loadAlbums(widget.requestType);
+      List<AssetPathEntity> albums =
+          await mediaServices.loadAlbums(widget.requestType);
 
       for (var album in albums) {
         List<AssetEntity> assets = await mediaServices.loadAssets(album);
@@ -215,7 +217,8 @@ class _BottomSheetsState extends State<BottomSheets> with AutomaticKeepAliveClie
                         DropdownButton<AssetPathEntity>(
                           underline: const SizedBox.shrink(),
                           icon: const SizedBox.shrink(),
-                          dropdownColor: widget.dropdownColor ?? Theme.of(context).cardColor,
+                          dropdownColor: widget.dropdownColor ??
+                              Theme.of(context).cardColor,
                           value: selectedAlbum,
                           onChanged: (AssetPathEntity? value) {
                             setState(() {
@@ -223,7 +226,10 @@ class _BottomSheetsState extends State<BottomSheets> with AutomaticKeepAliveClie
                             });
                             if (value != null) loadAssets(value);
                           },
-                          items: albumList.asMap().entries.map<DropdownMenuItem<AssetPathEntity>>(
+                          items: albumList
+                              .asMap()
+                              .entries
+                              .map<DropdownMenuItem<AssetPathEntity>>(
                             (entry) {
                               int index = entry.key;
                               AssetPathEntity album = entry.value;
@@ -239,13 +245,18 @@ class _BottomSheetsState extends State<BottomSheets> with AutomaticKeepAliveClie
                                         ),
                                         child: Image(
                                           fit: BoxFit.cover,
-                                          image: FileImage(albumFirstImages[index]!),
+                                          image: FileImage(
+                                              albumFirstImages[index]!),
                                           width: 30,
                                           height: 30,
                                         ),
                                       ),
                                     const SizedBox(width: 8),
-                                    Text(album.name == "Recent" ? "All" : album.name, style: widget.textStyleDropdown),
+                                    Text(
+                                        album.name == "Recent"
+                                            ? "All"
+                                            : album.name,
+                                        style: widget.textStyleDropdown),
                                     const SizedBox(width: 8),
                                     Text(
                                       '(${albumFileCounts[index]})',
@@ -275,19 +286,25 @@ class _BottomSheetsState extends State<BottomSheets> with AutomaticKeepAliveClie
                   child: assetsList.isEmpty
                       ? Center(
                           child: isLoading
-                              ? widget.loading ?? const CircularProgressIndicator.adaptive()
+                              ? widget.loading ??
+                                  const CircularProgressIndicator.adaptive()
                               : Text(
                                   widget.textEmptyList,
                                   style: TextStyle(
-                                    color: widget.textEmptyListColor ?? Theme.of(context).primaryColor,
-                                    fontSize: Theme.of(context).primaryTextTheme.headlineMedium!.fontSize,
+                                    color: widget.textEmptyListColor ??
+                                        Theme.of(context).primaryColor,
+                                    fontSize: Theme.of(context)
+                                        .primaryTextTheme
+                                        .headlineMedium!
+                                        .fontSize,
                                   ),
                                 ),
                         )
                       : GridView.builder(
                           physics: const BouncingScrollPhysics(),
                           itemCount: assetsList.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
                             crossAxisSpacing: 3,
                             mainAxisSpacing: 3,
@@ -308,7 +325,8 @@ class _BottomSheetsState extends State<BottomSheets> with AutomaticKeepAliveClie
                   : Padding(
                       padding: const EdgeInsets.only(bottom: 1.0),
                       child: MaterialButton(
-                        color: widget.confirmButtonColor ?? Theme.of(context).primaryColorLight,
+                        color: widget.confirmButtonColor ??
+                            Theme.of(context).primaryColorLight,
                         height: 55,
                         minWidth: size.width * 0.98,
                         shape: OutlineInputBorder(
@@ -324,7 +342,9 @@ class _BottomSheetsState extends State<BottomSheets> with AutomaticKeepAliveClie
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                backgroundColor: widget.backgroundSnackBarColor ?? Theme.of(context).primaryColor,
+                                backgroundColor:
+                                    widget.backgroundSnackBarColor ??
+                                        Theme.of(context).primaryColor,
                                 margin: const EdgeInsets.all(15.0),
                                 behavior: SnackBarBehavior.floating,
                                 shape: BeveledRectangleBorder(
@@ -391,7 +411,9 @@ class _BottomSheetsState extends State<BottomSheets> with AutomaticKeepAliveClie
             ),
           Positioned.fill(
             child: Container(
-              color: assetEntity == selectedEntity ? Colors.white60 : Colors.transparent,
+              color: assetEntity == selectedEntity
+                  ? Colors.white60
+                  : Colors.transparent,
             ),
           ),
           Positioned.fill(
@@ -407,7 +429,9 @@ class _BottomSheetsState extends State<BottomSheets> with AutomaticKeepAliveClie
                   padding: const EdgeInsets.all(5.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: selectedAssetList.contains(assetEntity) == true ? Colors.blue : Colors.white12,
+                      color: selectedAssetList.contains(assetEntity) == true
+                          ? Colors.blue
+                          : Colors.white12,
                       shape: BoxShape.circle,
                       border: Border.all(
                         width: 1.5,
@@ -419,7 +443,9 @@ class _BottomSheetsState extends State<BottomSheets> with AutomaticKeepAliveClie
                       child: Text(
                         "${selectedAssetList.indexOf(assetEntity) + 1}",
                         style: TextStyle(
-                          color: selectedAssetList.contains(assetEntity) == true ? Colors.white : Colors.transparent,
+                          color: selectedAssetList.contains(assetEntity) == true
+                              ? Colors.white
+                              : Colors.transparent,
                         ),
                       ),
                     ),
@@ -433,7 +459,8 @@ class _BottomSheetsState extends State<BottomSheets> with AutomaticKeepAliveClie
     );
   }
 
-  void selectedAsset({required AssetEntity assetEntity, required int maxCount}) {
+  void selectedAsset(
+      {required AssetEntity assetEntity, required int maxCount}) {
     if (selectedAssetList.contains(assetEntity)) {
       selectedAssetList.remove(assetEntity);
     } else if (selectedAssetList.length < maxCount) {

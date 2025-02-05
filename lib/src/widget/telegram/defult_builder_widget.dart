@@ -55,9 +55,11 @@ class DefultBuilderWidget extends StatefulWidget {
   State<DefultBuilderWidget> createState() => _DefultBuilderWidgetState();
 }
 
-class _DefultBuilderWidgetState extends State<DefultBuilderWidget> with AutomaticKeepAliveClientMixin {
+class _DefultBuilderWidgetState extends State<DefultBuilderWidget>
+    with AutomaticKeepAliveClientMixin {
   List<AssetEntity> selectedAssetList = [];
-  final ValueNotifier<List<AssetEntity>> selectedAssetListNotifier = ValueNotifier<List<AssetEntity>>([]);
+  final ValueNotifier<List<AssetEntity>> selectedAssetListNotifier =
+      ValueNotifier<List<AssetEntity>>([]);
 
   void _sendSelectedFiles() {
     widget.onMediaPicked(selectedAssetList, null);
@@ -82,17 +84,23 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget> with Automati
               child: widget.assetsList.isEmpty
                   ? Center(
                       child: widget.isLoading
-                          ? widget.widget.loading ?? const CircularProgressIndicator.adaptive()
+                          ? widget.widget.loading ??
+                              const CircularProgressIndicator.adaptive()
                           : Text(
                               widget.widget.textEmptyList,
                               style: TextStyle(
-                                color: widget.widget.textEmptyListColor ?? Theme.of(context).colorScheme.onPrimary,
-                                fontSize: Theme.of(context).primaryTextTheme.headlineMedium!.fontSize,
+                                color: widget.widget.textEmptyListColor ??
+                                    Theme.of(context).colorScheme.onPrimary,
+                                fontSize: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headlineMedium!
+                                    .fontSize,
                               ),
                             ),
                     )
                   : Padding(
-                      padding: const EdgeInsets.only(top: 15, right: 10, left: 10),
+                      padding:
+                          const EdgeInsets.only(top: 15, right: 10, left: 10),
                       child: Column(
                         children: [
                           Container(
@@ -116,7 +124,8 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget> with Automati
                                   controller: widget.controller,
                                   physics: const BouncingScrollPhysics(),
                                   itemCount: widget.assetsList.length + 1,
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,
                                     crossAxisSpacing: 3,
                                     mainAxisSpacing: 3,
@@ -134,8 +143,10 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget> with Automati
                                         );
                                       }
                                     } else {
-                                      AssetEntity assetEntity = widget.assetsList[index - 1];
-                                      return assetWidget(assetEntity, widget.widget.maxCountPickMedia);
+                                      AssetEntity assetEntity =
+                                          widget.assetsList[index - 1];
+                                      return assetWidget(assetEntity,
+                                          widget.widget.maxCountPickMedia);
                                     }
                                   },
                                 ),
@@ -161,7 +172,8 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget> with Automati
                       children: [
                         InkResponse(
                           onTap: () {
-                            debugPrint('Selected files: ${selectedAssetList.length}');
+                            debugPrint(
+                                'Selected files: ${selectedAssetList.length}');
                             _sendSelectedFiles();
                             widget.toggleSheet();
                           },
@@ -184,11 +196,13 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget> with Automati
                             decoration: BoxDecoration(
                               color: theme.colorScheme.primary,
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.black, width: 2.0),
+                              border:
+                                  Border.all(color: Colors.black, width: 2.0),
                             ),
                             child: Text(
                               '${selectedAssetList.length}',
-                              style: TextStyle(color: theme.colorScheme.onPrimary),
+                              style:
+                                  TextStyle(color: theme.colorScheme.onPrimary),
                             ),
                           ),
                         ),
@@ -210,12 +224,14 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget> with Automati
         return GestureDetector(
           onTap: () {
             if (isSelected) {
-              selectedAssetListNotifier.value = List.from(selectedAssetList)..remove(assetEntity);
+              selectedAssetListNotifier.value = List.from(selectedAssetList)
+                ..remove(assetEntity);
               setState(() {
                 selectedAssetList.remove(assetEntity);
               });
             } else if (selectedAssetList.length < maxCount) {
-              selectedAssetListNotifier.value = List.from(selectedAssetList)..add(assetEntity);
+              selectedAssetListNotifier.value = List.from(selectedAssetList)
+                ..add(assetEntity);
               setState(() {
                 selectedAssetList.add(assetEntity);
               });
@@ -250,7 +266,8 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget> with Automati
                         color: Colors.white70,
                       ),
                     ),
-                    child: const Icon(Icons.check, color: Colors.white, size: 30),
+                    child:
+                        const Icon(Icons.check, color: Colors.white, size: 30),
                   ),
                 ),
             ],
@@ -260,7 +277,8 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget> with Automati
     );
   }
 
-  void selectedAsset({required AssetEntity assetEntity, required int maxCount}) {
+  void selectedAsset(
+      {required AssetEntity assetEntity, required int maxCount}) {
     if (selectedAssetList.contains(assetEntity)) {
       setState(() {
         selectedAssetList.remove(assetEntity);
@@ -276,7 +294,8 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget> with Automati
     final myFile = await ImagePicker().pickImage(
       source: source,
       imageQuality: widget.widget.cameraImageSettings?.imageQuality,
-      preferredCameraDevice: widget.widget.cameraImageSettings!.preferredCameraDevice,
+      preferredCameraDevice:
+          widget.widget.cameraImageSettings!.preferredCameraDevice,
       maxWidth: widget.widget.cameraImageSettings!.maxWidth,
       maxHeight: widget.widget.cameraImageSettings!.maxHeight,
     );

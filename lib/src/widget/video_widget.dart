@@ -6,12 +6,25 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 
 class VideoWidget extends StatefulWidget {
+  /// The size of the video widget.
   final Size size;
+
+  /// The instance of CustomPicker used within this widget.
   final CustomPicker widget;
+
+  /// The currently selected asset entity (can be null).
   AssetEntity? selectedEntity;
+
+  /// The list of all available asset entities.
   final List<AssetEntity> assetsList;
+
+  /// The list of selected asset entities.
   final List<AssetEntity> selectedAssetList;
+
+  /// Indicates whether a loading process is in progress.
   bool loading;
+
+  /// Constructor for the VideoWidget class.
   VideoWidget({
     super.key,
     required this.size,
@@ -29,7 +42,9 @@ class VideoWidget extends StatefulWidget {
 class _VideoWidgetState extends State<VideoWidget> {
   @override
   Widget build(BuildContext context) {
-    final videoAssets = widget.assetsList.where((assetEntity) => assetEntity.type == AssetType.video).toList();
+    final videoAssets = widget.assetsList
+        .where((assetEntity) => assetEntity.type == AssetType.video)
+        .toList();
     return SingleChildScrollView(
       child: SizedBox(
         width: widget.size.width,
@@ -43,7 +58,8 @@ class _VideoWidgetState extends State<VideoWidget> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(top: widget.size.height * 0.4),
+                            padding:
+                                EdgeInsets.only(top: widget.size.height * 0.4),
                             child: Center(
                               child: widget.loading
                                   ? const CircularProgressIndicator.adaptive()
@@ -61,7 +77,8 @@ class _VideoWidgetState extends State<VideoWidget> {
                     : GridView.builder(
                         physics: const BouncingScrollPhysics(),
                         itemCount: widget.assetsList.length,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           crossAxisSpacing: 3,
                           mainAxisSpacing: 3,
@@ -70,7 +87,8 @@ class _VideoWidgetState extends State<VideoWidget> {
                         ),
                         itemBuilder: (context, index) {
                           AssetEntity assetEntity = widget.assetsList[index];
-                          return assetWidget(assetEntity, widget.widget.maxCount);
+                          return assetWidget(
+                              assetEntity, widget.widget.maxCount);
                         },
                       ),
               )
@@ -151,7 +169,8 @@ class _VideoWidgetState extends State<VideoWidget> {
     );
   }
 
-  void selectedAsset({required AssetEntity assetEntity, required int maxCount}) {
+  void selectedAsset(
+      {required AssetEntity assetEntity, required int maxCount}) {
     if (widget.selectedAssetList.contains(assetEntity)) {
       setState(() {
         widget.selectedAssetList.remove(assetEntity);

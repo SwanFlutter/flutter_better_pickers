@@ -148,18 +148,30 @@ Future<List<String?>> getPublicDirectories() async {
 
   // دریافت لیست مسیرهای عمومی برای دایرکتوری‌ها
   List<String?> publicDirectories = await Future.wait([
-    externalPathIos.getDirectoryPath(directory: ExternalPathIosMac.DIRECTORY_DOWNLOADS),
-    externalPathIos.getDirectoryPath(directory: ExternalPathIosMac.DIRECTORY_MUSIC),
-    externalPathIos.getDirectoryPath(directory: ExternalPathIosMac.DIRECTORY_PODCASTS),
-    externalPathIos.getDirectoryPath(directory: ExternalPathIosMac.DIRECTORY_RINGTONES),
-    externalPathIos.getDirectoryPath(directory: ExternalPathIosMac.DIRECTORY_ALARMS),
-    externalPathIos.getDirectoryPath(directory: ExternalPathIosMac.DIRECTORY_NOTIFICATIONS),
-    externalPathIos.getDirectoryPath(directory: ExternalPathIosMac.DIRECTORY_PICTURES),
-    externalPathIos.getDirectoryPath(directory: ExternalPathIosMac.DIRECTORY_MOVIES),
-    externalPathIos.getDirectoryPath(directory: ExternalPathIosMac.DIRECTORY_DCIM),
-    externalPathIos.getDirectoryPath(directory: ExternalPathIosMac.DIRECTORY_DOCUMENTS),
-    externalPathIos.getDirectoryPath(directory: ExternalPathIosMac.DIRECTORY_SCREENSHOTS),
-    externalPathIos.getDirectoryPath(directory: ExternalPathIosMac.DIRECTORY_AUDIOBOOKS),
+    externalPathIos.getDirectoryPath(
+        directory: ExternalPathIosMac.DIRECTORY_DOWNLOADS),
+    externalPathIos.getDirectoryPath(
+        directory: ExternalPathIosMac.DIRECTORY_MUSIC),
+    externalPathIos.getDirectoryPath(
+        directory: ExternalPathIosMac.DIRECTORY_PODCASTS),
+    externalPathIos.getDirectoryPath(
+        directory: ExternalPathIosMac.DIRECTORY_RINGTONES),
+    externalPathIos.getDirectoryPath(
+        directory: ExternalPathIosMac.DIRECTORY_ALARMS),
+    externalPathIos.getDirectoryPath(
+        directory: ExternalPathIosMac.DIRECTORY_NOTIFICATIONS),
+    externalPathIos.getDirectoryPath(
+        directory: ExternalPathIosMac.DIRECTORY_PICTURES),
+    externalPathIos.getDirectoryPath(
+        directory: ExternalPathIosMac.DIRECTORY_MOVIES),
+    externalPathIos.getDirectoryPath(
+        directory: ExternalPathIosMac.DIRECTORY_DCIM),
+    externalPathIos.getDirectoryPath(
+        directory: ExternalPathIosMac.DIRECTORY_DOCUMENTS),
+    externalPathIos.getDirectoryPath(
+        directory: ExternalPathIosMac.DIRECTORY_SCREENSHOTS),
+    externalPathIos.getDirectoryPath(
+        directory: ExternalPathIosMac.DIRECTORY_AUDIOBOOKS),
   ]);
 
   return publicDirectories;

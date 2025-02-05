@@ -11,13 +11,28 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:path/path.dart' as path;
 
 class AudioTelegramWidget extends StatefulWidget {
+  /// The scroll controller for handling the scrolling behavior.
   final ScrollController scrollController;
+
+  /// The maximum number of audio files that can be selected.
   final int maxCountPickFiles;
+
+  /// Callback function triggered when files are selected.
   final OnMediaPicked onFilesSelected;
+
+  /// The overlay entry used for displaying the widget as an overlay.
   final OverlayEntry overlayEntry;
+
+  /// Callback function to toggle the visibility of the bottom sheet.
   final VoidCallback toggleSheet;
+
+  /// The text displayed when the audio list is empty.
   final String textEmptyListAudio;
+
+  /// The text style applied to the empty list message.
   final TextStyle textStyleEmptyListText;
+
+  /// Constructor for the AudioTelegramWidget class.
   const AudioTelegramWidget({
     super.key,
     required this.scrollController,
@@ -34,7 +49,8 @@ class AudioTelegramWidget extends StatefulWidget {
 }
 
 class _AudioTelegramWidgetState extends State<AudioTelegramWidget> {
-  final StreamController<List<FileSystemEntity>> _fileStreamController = StreamController<List<FileSystemEntity>>();
+  final StreamController<List<FileSystemEntity>> _fileStreamController =
+      StreamController<List<FileSystemEntity>>();
 
   List<FileSystemEntity> selectedFiles = [];
 
@@ -54,7 +70,8 @@ class _AudioTelegramWidgetState extends State<AudioTelegramWidget> {
       List<FileSystemEntity> allFiles = [];
       if (Platform.isAndroid) {
         for (String dirType in publicDirectories) {
-          String directory = await ExternalPath.getExternalStoragePublicDirectory(dirType);
+          String directory =
+              await ExternalPath.getExternalStoragePublicDirectory(dirType);
           Directory dir = Directory(directory);
           if (await dir.exists()) {
             allFiles.addAll(await _getFilesRecursively(dir));
@@ -65,7 +82,8 @@ class _AudioTelegramWidgetState extends State<AudioTelegramWidget> {
         var publicDirectories = await getPublicDirectories();
         for (String? dirType in publicDirectories) {
           if (dirType != null) {
-            String? directory = await externalPathIos.getDirectoryPath(directory: dirType);
+            String? directory =
+                await externalPathIos.getDirectoryPath(directory: dirType);
             Directory dir = Directory(directory!);
             if (await dir.exists()) {
               allFiles.addAll(await _getFilesRecursively(dir));
@@ -89,10 +107,12 @@ class _AudioTelegramWidgetState extends State<AudioTelegramWidget> {
     }
   }
 
-  Future<List<FileSystemEntity>> _getFilesRecursively(Directory directory) async {
+  Future<List<FileSystemEntity>> _getFilesRecursively(
+      Directory directory) async {
     List<FileSystemEntity> files = [];
     try {
-      await for (var entity in directory.list(recursive: true, followLinks: true)) {
+      await for (var entity
+          in directory.list(recursive: true, followLinks: true)) {
         if (entity is File) {
           files.add(entity);
         }
@@ -153,24 +173,30 @@ class _AudioTelegramWidgetState extends State<AudioTelegramWidget> {
                           itemCount: files.length,
                           itemBuilder: (context, index) {
                             FileSystemEntity file = files[index];
-                            String fileExtension = path.extension(file.path).toLowerCase();
+                            String fileExtension =
+                                path.extension(file.path).toLowerCase();
                             bool isSelected = selectedFiles.contains(file);
 
                             return InkWell(
                               onTap: () => _toggleSelection(file),
                               child: Container(
-                                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10),
                                 decoration: BoxDecoration(
-                                  color: isSelected ? theme.primaryColorLight : theme.colorScheme.secondary,
+                                  color: isSelected
+                                      ? theme.primaryColorLight
+                                      : theme.colorScheme.secondary,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: theme.colorScheme.primary.withValues(alpha: 0.2),
+                                      color: theme.colorScheme.primary
+                                          .withValues(alpha: 0.2),
                                       offset: const Offset(2, 2),
                                       blurRadius: 10,
                                       spreadRadius: 1,
                                     ),
                                     BoxShadow(
-                                      color: theme.colorScheme.primary.withValues(alpha: 0.7),
+                                      color: theme.colorScheme.primary
+                                          .withValues(alpha: 0.7),
                                       offset: const Offset(-2, -2),
                                       blurRadius: 10,
                                       spreadRadius: 1,
@@ -241,7 +267,8 @@ class _AudioTelegramWidgetState extends State<AudioTelegramWidget> {
                 // دایره اصلی
                 InkResponse(
                   onTap: () {
-                    debugPrint('Selected files: ${selectedFiles.map((f) => f.path).toList()}');
+                    debugPrint(
+                        'Selected files: ${selectedFiles.map((f) => f.path).toList()}');
                     _sendSelectedFiles();
                     widget.toggleSheet();
                   },
@@ -264,7 +291,10 @@ class _AudioTelegramWidgetState extends State<AudioTelegramWidget> {
                       alignment: Alignment.center,
                       width: 35.0,
                       height: 35.0,
-                      decoration: BoxDecoration(color: theme.colorScheme.primary, shape: BoxShape.circle, border: Border.all(color: Colors.black, width: 2.0)),
+                      decoration: BoxDecoration(
+                          color: theme.colorScheme.primary,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.black, width: 2.0)),
                       child: Text(
                         '${selectedFiles.length}',
                         style: TextStyle(color: theme.colorScheme.onPrimary),
@@ -279,7 +309,8 @@ class _AudioTelegramWidgetState extends State<AudioTelegramWidget> {
   }
 
   Widget getIconForFile(String fileExtension) {
-    String normalizedExtension = fileExtension.startsWith('.') ? fileExtension : '.$fileExtension';
+    String normalizedExtension =
+        fileExtension.startsWith('.') ? fileExtension : '.$fileExtension';
 
     Map<String, IconData> icons = {
       '.mp3': Icons.play_circle_fill,
@@ -292,7 +323,9 @@ class _AudioTelegramWidgetState extends State<AudioTelegramWidget> {
       '.wma': Icons.play_circle_fill,
     };
 
-    IconData iconData = icons.containsKey(normalizedExtension) ? icons[normalizedExtension]! : LucideIcons.file;
+    IconData iconData = icons.containsKey(normalizedExtension)
+        ? icons[normalizedExtension]!
+        : LucideIcons.file;
 
     int hash = normalizedExtension.hashCode;
     Color fixedColor = Color((hash & 0xFFFFFF) + 0xFF000000);

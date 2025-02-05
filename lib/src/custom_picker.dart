@@ -111,7 +111,8 @@ class CustomPicker extends StatefulWidget {
   }
 }
 
-class _CustomPickerState extends State<CustomPicker> with AutomaticKeepAliveClientMixin {
+class _CustomPickerState extends State<CustomPicker>
+    with AutomaticKeepAliveClientMixin {
   AssetEntity? selectedEntity;
   AssetPathEntity? selectedAlbum;
   List<AssetPathEntity> albumList = [];

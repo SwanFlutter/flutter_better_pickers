@@ -109,10 +109,12 @@ class BottomSheetImageSelector extends StatefulWidget {
   });
 
   @override
-  State<BottomSheetImageSelector> createState() => _BottomSheetImageSelectorState();
+  State<BottomSheetImageSelector> createState() =>
+      _BottomSheetImageSelectorState();
 }
 
-class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector> with AutomaticKeepAliveClientMixin {
+class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   List<File?> imageFiles = [];
@@ -154,7 +156,8 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector> wit
   }
 
   Future<List<AssetPathEntity>> _fetchAlbums() async {
-    return await MediaServicesBottomSheetImageSelector.loadAlbums(widget.requestType);
+    return await MediaServicesBottomSheetImageSelector.loadAlbums(
+        widget.requestType);
   }
 
   Future<void> _updateAlbums(List<AssetPathEntity> albums) async {
@@ -168,7 +171,8 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector> wit
 
   Future<void> _loadAssetsForSelectedAlbum() async {
     if (selectedAlbum != null) {
-      final assets = await MediaServicesBottomSheetImageSelector.loadAssets(selectedAlbum!);
+      final assets = await MediaServicesBottomSheetImageSelector.loadAssets(
+          selectedAlbum!);
       _updateAssets(assets);
     }
   }
@@ -217,7 +221,8 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector> wit
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      backgroundColor: widget.backgroundSnackBarColor ?? Theme.of(context).primaryColor,
+                      backgroundColor: widget.backgroundSnackBarColor ??
+                          Theme.of(context).primaryColor,
                       margin: const EdgeInsets.all(15.0),
                       behavior: SnackBarBehavior.floating,
                       shape: BeveledRectangleBorder(
@@ -299,7 +304,8 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector> wit
                           DropdownButton<AssetPathEntity>(
                             underline: const SizedBox.shrink(),
                             icon: const SizedBox.shrink(),
-                            dropdownColor: widget.dropdownColor ?? Theme.of(context).cardColor,
+                            dropdownColor: widget.dropdownColor ??
+                                Theme.of(context).cardColor,
                             value: selectedAlbum,
                             onChanged: (AssetPathEntity? value) {
                               setState(() {
@@ -307,13 +313,16 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector> wit
                               });
 
                               // Load the assets for the selected album.
-                              MediaServicesBottomSheetImageSelector.loadAssets(selectedAlbum!).then((value) {
+                              MediaServicesBottomSheetImageSelector.loadAssets(
+                                      selectedAlbum!)
+                                  .then((value) {
                                 setState(() {
                                   assetsList = value;
                                 });
                               });
                             },
-                            items: albumList.map<DropdownMenuItem<AssetPathEntity>>(
+                            items: albumList
+                                .map<DropdownMenuItem<AssetPathEntity>>(
                               (AssetPathEntity album) {
                                 return DropdownMenuItem<AssetPathEntity>(
                                   value: album,
@@ -341,19 +350,25 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector> wit
                     child: assetsList.isEmpty
                         ? Center(
                             child: isLoading
-                                ? widget.loading ?? const CircularProgressIndicator.adaptive()
+                                ? widget.loading ??
+                                    const CircularProgressIndicator.adaptive()
                                 : Text(
                                     widget.textEmptyList,
                                     style: TextStyle(
-                                      color: widget.textEmptyListColor ?? Theme.of(context).primaryColor,
-                                      fontSize: Theme.of(context).primaryTextTheme.headlineMedium!.fontSize,
+                                      color: widget.textEmptyListColor ??
+                                          Theme.of(context).primaryColor,
+                                      fontSize: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headlineMedium!
+                                          .fontSize,
                                     ),
                                   ),
                           )
                         : GridView.builder(
                             physics: const BouncingScrollPhysics(),
                             itemCount: assetsList.reversed.length,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 4,
                               crossAxisSpacing: 3,
                               mainAxisSpacing: 3,
@@ -363,7 +378,8 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector> wit
                             itemBuilder: (context, index) {
                               if (index <= assetsList.length) {
                                 AssetEntity assetEntity = assetsList[index];
-                                return assetWidget(assetEntity, widget.maxCount);
+                                return assetWidget(
+                                    assetEntity, widget.maxCount);
                               }
                               return const SizedBox.shrink();
                             },
@@ -418,7 +434,9 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector> wit
             ),
           Positioned.fill(
             child: Container(
-              color: assetEntity == selectedEntity ? Colors.white60 : Colors.transparent,
+              color: assetEntity == selectedEntity
+                  ? Colors.white60
+                  : Colors.transparent,
             ),
           ),
           Positioned.fill(
@@ -434,7 +452,9 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector> wit
                   padding: const EdgeInsets.all(5.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: selectedAssetList.contains(assetEntity) == true ? Colors.blue : Colors.white12,
+                      color: selectedAssetList.contains(assetEntity) == true
+                          ? Colors.blue
+                          : Colors.white12,
                       shape: BoxShape.circle,
                       border: Border.all(
                         width: 1.5,
@@ -446,7 +466,9 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector> wit
                       child: Text(
                         "${selectedAssetList.indexOf(assetEntity) + 1}",
                         style: TextStyle(
-                          color: selectedAssetList.contains(assetEntity) == true ? Colors.white : Colors.transparent,
+                          color: selectedAssetList.contains(assetEntity) == true
+                              ? Colors.white
+                              : Colors.transparent,
                         ),
                       ),
                     ),
@@ -460,7 +482,8 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector> wit
     );
   }
 
-  void selectedAsset({required AssetEntity assetEntity, required int maxCount}) {
+  void selectedAsset(
+      {required AssetEntity assetEntity, required int maxCount}) {
     if (selectedAssetList.contains(assetEntity)) {
       setState(() {
         selectedAssetList.remove(assetEntity);

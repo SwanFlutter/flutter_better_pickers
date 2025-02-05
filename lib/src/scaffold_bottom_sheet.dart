@@ -136,7 +136,8 @@ class _ScaffoldBottomSheetState extends State<ScaffoldBottomSheet> {
     List<int> fileCounts = [];
     List<File?> firstImages = [];
     try {
-      List<AssetPathEntity> albums = await mediaServices.loadAlbums(widget.requestType);
+      List<AssetPathEntity> albums =
+          await mediaServices.loadAlbums(widget.requestType);
 
       for (var album in albums) {
         List<AssetEntity> assets = await mediaServices.loadAssets(album);
@@ -213,7 +214,10 @@ class _ScaffoldBottomSheetState extends State<ScaffoldBottomSheet> {
                             });
                             if (value != null) loadAssets(value);
                           },
-                          items: albumList.asMap().entries.map<DropdownMenuItem<AssetPathEntity>>(
+                          items: albumList
+                              .asMap()
+                              .entries
+                              .map<DropdownMenuItem<AssetPathEntity>>(
                             (entry) {
                               int index = entry.key;
                               AssetPathEntity album = entry.value;
@@ -229,16 +233,22 @@ class _ScaffoldBottomSheetState extends State<ScaffoldBottomSheet> {
                                         ),
                                         child: Image(
                                           fit: BoxFit.cover,
-                                          image: FileImage(albumFirstImages[index]!),
+                                          image: FileImage(
+                                              albumFirstImages[index]!),
                                           width: 30,
                                           height: 30,
                                         ),
                                       ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      album.name == "Recent" ? "All" : album.name,
+                                      album.name == "Recent"
+                                          ? "All"
+                                          : album.name,
                                       style: TextStyle(
-                                        fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
+                                        fontSize: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!
+                                            .fontSize,
                                         color: Colors.black,
                                       ),
                                     ),
@@ -246,7 +256,10 @@ class _ScaffoldBottomSheetState extends State<ScaffoldBottomSheet> {
                                     Text(
                                       '(${albumFileCounts[index]})',
                                       style: TextStyle(
-                                        fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
+                                        fontSize: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!
+                                            .fontSize,
                                         color: Colors.black,
                                       ),
                                     ),
@@ -288,15 +301,20 @@ class _ScaffoldBottomSheetState extends State<ScaffoldBottomSheet> {
                               : Text(
                                   widget.textEmptyList,
                                   style: TextStyle(
-                                    color: widget.textEmptyListColor ?? Theme.of(context).primaryColor,
-                                    fontSize: Theme.of(context).primaryTextTheme.headlineMedium!.fontSize,
+                                    color: widget.textEmptyListColor ??
+                                        Theme.of(context).primaryColor,
+                                    fontSize: Theme.of(context)
+                                        .primaryTextTheme
+                                        .headlineMedium!
+                                        .fontSize,
                                   ),
                                 ),
                         )
                       : GridView.builder(
                           physics: const BouncingScrollPhysics(),
                           itemCount: assetsList.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
                             crossAxisSpacing: 3,
                             mainAxisSpacing: 3,
@@ -317,7 +335,8 @@ class _ScaffoldBottomSheetState extends State<ScaffoldBottomSheet> {
                   : Padding(
                       padding: const EdgeInsets.only(bottom: 1.0),
                       child: MaterialButton(
-                        color: widget.confirmButtonColor ?? Theme.of(context).primaryColorLight,
+                        color: widget.confirmButtonColor ??
+                            Theme.of(context).primaryColorLight,
                         height: 55,
                         minWidth: size.width * 0.98,
                         shape: OutlineInputBorder(
@@ -333,7 +352,9 @@ class _ScaffoldBottomSheetState extends State<ScaffoldBottomSheet> {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                backgroundColor: widget.backgroundSnackBarColor ?? Theme.of(context).primaryColor,
+                                backgroundColor:
+                                    widget.backgroundSnackBarColor ??
+                                        Theme.of(context).primaryColor,
                                 margin: const EdgeInsets.all(15.0),
                                 behavior: SnackBarBehavior.floating,
                                 shape: BeveledRectangleBorder(
@@ -400,7 +421,9 @@ class _ScaffoldBottomSheetState extends State<ScaffoldBottomSheet> {
             ),
           Positioned.fill(
             child: Container(
-              color: assetEntity == selectedEntity ? Colors.white60 : Colors.transparent,
+              color: assetEntity == selectedEntity
+                  ? Colors.white60
+                  : Colors.transparent,
             ),
           ),
           Positioned.fill(
@@ -416,7 +439,9 @@ class _ScaffoldBottomSheetState extends State<ScaffoldBottomSheet> {
                   padding: const EdgeInsets.all(5.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: selectedAssetList.contains(assetEntity) == true ? Colors.blue : Colors.white12,
+                      color: selectedAssetList.contains(assetEntity) == true
+                          ? Colors.blue
+                          : Colors.white12,
                       shape: BoxShape.circle,
                       border: Border.all(
                         width: 1.5,
@@ -428,7 +453,9 @@ class _ScaffoldBottomSheetState extends State<ScaffoldBottomSheet> {
                       child: Text(
                         "${selectedAssetList.indexOf(assetEntity) + 1}",
                         style: TextStyle(
-                          color: selectedAssetList.contains(assetEntity) == true ? Colors.white : Colors.transparent,
+                          color: selectedAssetList.contains(assetEntity) == true
+                              ? Colors.white
+                              : Colors.transparent,
                         ),
                       ),
                     ),
@@ -442,7 +469,8 @@ class _ScaffoldBottomSheetState extends State<ScaffoldBottomSheet> {
     );
   }
 
-  void selectedAsset({required AssetEntity assetEntity, required int maxCount}) {
+  void selectedAsset(
+      {required AssetEntity assetEntity, required int maxCount}) {
     if (selectedAssetList.contains(assetEntity)) {
       selectedAssetList.remove(assetEntity);
     } else if (selectedAssetList.length < maxCount) {

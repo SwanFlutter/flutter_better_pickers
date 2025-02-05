@@ -4,15 +4,34 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 
 class VideoOnlyPage extends StatefulWidget {
+  /// The parent widget that manages media pickers.
   final TelegramMediaPickers widget;
+
+  /// The maximum number of video files that can be selected.
   final int maxCountPickFiles;
+
+  /// Callback function triggered when video files are selected.
   final OnMediaPicked onFilesSelected;
+
+  /// The scroll controller for handling the scrolling behavior.
   final ScrollController controller;
+
+  /// The list of available video assets.
   final List<AssetEntity> assetsList;
+
+  /// The currently selected album (optional).
   final AssetPathEntity? selectedAlbum;
+
+  /// The currently selected video entity (optional).
   final AssetEntity? selectedEntity;
+
+  /// The overlay entry used for displaying the widget as an overlay.
   final OverlayEntry overlayEntry;
+
+  /// Callback function to toggle the visibility of the bottom sheet.
   final VoidCallback toggleSheet;
+
+  /// Constructor for the VideoOnlyPage class.
 
   const VideoOnlyPage({
     super.key,
@@ -32,7 +51,8 @@ class VideoOnlyPage extends StatefulWidget {
 }
 
 class _VideoOnlyPageState extends State<VideoOnlyPage> {
-  final ValueNotifier<List<AssetEntity>> selectedAssetListNotifier = ValueNotifier<List<AssetEntity>>([]);
+  final ValueNotifier<List<AssetEntity>> selectedAssetListNotifier =
+      ValueNotifier<List<AssetEntity>>([]);
   List<AssetEntity> selectedAssetList = [];
 
   void _sendSelectedFiles() {
@@ -98,7 +118,8 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                               controller: widget.controller,
                               physics: const BouncingScrollPhysics(),
                               itemCount: videoAssets.length,
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
                                 crossAxisSpacing: 3,
                                 mainAxisSpacing: 3,
@@ -106,7 +127,8 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                               ),
                               itemBuilder: (context, index) {
                                 AssetEntity assetEntity = videoAssets[index];
-                                return assetWidget(assetEntity, widget.widget.maxCountPickMedia);
+                                return assetWidget(assetEntity,
+                                    widget.widget.maxCountPickMedia);
                               },
                             ),
                           ),
@@ -129,7 +151,8 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                       children: [
                         InkResponse(
                           onTap: () {
-                            debugPrint('Selected files: ${selectedAssetList.length}');
+                            debugPrint(
+                                'Selected files: ${selectedAssetList.length}');
                             _sendSelectedFiles();
                             widget.toggleSheet();
                           },
@@ -152,11 +175,13 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                             decoration: BoxDecoration(
                               color: theme.colorScheme.primary,
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.black, width: 2.0),
+                              border:
+                                  Border.all(color: Colors.black, width: 2.0),
                             ),
                             child: Text(
                               '${selectedAssetList.length}',
-                              style: TextStyle(color: theme.colorScheme.onPrimary),
+                              style:
+                                  TextStyle(color: theme.colorScheme.onPrimary),
                             ),
                           ),
                         ),
@@ -208,7 +233,8 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                         color: Colors.white70,
                       ),
                     ),
-                    child: const Icon(Icons.check, color: Colors.white, size: 30),
+                    child:
+                        const Icon(Icons.check, color: Colors.white, size: 30),
                   ),
                 ),
             ],
@@ -218,7 +244,8 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
     );
   }
 
-  void selectedAsset({required AssetEntity assetEntity, required int maxCount}) {
+  void selectedAsset(
+      {required AssetEntity assetEntity, required int maxCount}) {
     if (selectedAssetList.contains(assetEntity)) {
       setState(() {
         selectedAssetList.remove(assetEntity);
