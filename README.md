@@ -38,7 +38,8 @@ import 'package:flutter_better_pickers/flutter_better_pickers.dart';
 
 ## instagram pickers
 
-<img src="https://github.com/user-attachments/assets/e00fc797-7425-4f33-9a5d-6385fe0ee797" width="300"/>
+<img width="300"  alt="picker8" src="https://github.com/user-attachments/assets/e892bbff-7245-4faa-b093-bc5d02081533" />
+
 
 ```dart
  List<AssetEntity> selectedAssetList = [];
