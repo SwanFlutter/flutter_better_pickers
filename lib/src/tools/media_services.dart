@@ -2,13 +2,7 @@ import 'dart:async';
 
 import 'package:photo_manager/photo_manager.dart';
 
-enum MyRequestType {
-  common,
-  audio,
-  image,
-  video,
-  all,
-}
+enum MyRequestType { common, audio, image, video, all }
 
 RequestType _mapRequestType(MyRequestType requestType) {
   switch (requestType) {
@@ -32,8 +26,9 @@ class MediaServices {
     List<AssetPathEntity> albumList = [];
     if (permission.isAuth == true) {
       final photoManagerRequestType = _mapRequestType(requestType);
-      albumList =
-          await PhotoManager.getAssetPathList(type: photoManagerRequestType);
+      albumList = await PhotoManager.getAssetPathList(
+        type: photoManagerRequestType,
+      );
     } else {
       PhotoManager.openSetting();
     }
@@ -42,8 +37,10 @@ class MediaServices {
 
   static Future loadAssets(AssetPathEntity selectedAlbum) async {
     int assetCount = await selectedAlbum.assetCountAsync;
-    List<AssetEntity> assetsList =
-        await selectedAlbum.getAssetListRange(start: 0, end: assetCount);
+    List<AssetEntity> assetsList = await selectedAlbum.getAssetListRange(
+      start: 0,
+      end: assetCount,
+    );
     return assetsList;
   }
 }
@@ -54,8 +51,9 @@ class MediaServices1 {
     List<AssetPathEntity> albumList = [];
     if (permission.isAuth == true) {
       final photoManagerRequestType = _mapRequestType(requestType);
-      albumList =
-          await PhotoManager.getAssetPathList(type: photoManagerRequestType);
+      albumList = await PhotoManager.getAssetPathList(
+        type: photoManagerRequestType,
+      );
     } else {
       PhotoManager.openSetting();
     }
@@ -64,8 +62,10 @@ class MediaServices1 {
 
   Future<List<AssetEntity>> loadAssets(AssetPathEntity selectedAlbum) async {
     int assetCount = await selectedAlbum.assetCountAsync;
-    List<AssetEntity> assetsList =
-        await selectedAlbum.getAssetListRange(start: 0, end: assetCount);
+    List<AssetEntity> assetsList = await selectedAlbum.getAssetListRange(
+      start: 0,
+      end: assetCount,
+    );
     return assetsList;
   }
 }
@@ -76,8 +76,9 @@ class MediaServicesBottomSheet {
     List<AssetPathEntity> albumList = [];
     if (permission.isAuth == true) {
       final photoManagerRequestType = _mapRequestType(requestType);
-      albumList =
-          await PhotoManager.getAssetPathList(type: photoManagerRequestType);
+      albumList = await PhotoManager.getAssetPathList(
+        type: photoManagerRequestType,
+      );
     } else {
       PhotoManager.openSetting();
     }
@@ -86,8 +87,10 @@ class MediaServicesBottomSheet {
 
   Future<List<AssetEntity>> loadAssets(AssetPathEntity selectedAlbum) async {
     int assetCount = await selectedAlbum.assetCountAsync;
-    List<AssetEntity> assetsList =
-        await selectedAlbum.getAssetListRange(start: 0, end: assetCount);
+    List<AssetEntity> assetsList = await selectedAlbum.getAssetListRange(
+      start: 0,
+      end: assetCount,
+    );
     return assetsList;
   }
 }
@@ -99,8 +102,9 @@ class MediaServicesBottomSheetImageSelector {
     List<AssetPathEntity> albumList = [];
     if (permission.isAuth == true) {
       final photoManagerRequestType = _mapRequestType(requestType);
-      albumList =
-          await PhotoManager.getAssetPathList(type: photoManagerRequestType);
+      albumList = await PhotoManager.getAssetPathList(
+        type: photoManagerRequestType,
+      );
     } else {
       PhotoManager.openSetting();
     }
@@ -109,8 +113,10 @@ class MediaServicesBottomSheetImageSelector {
 
   static Future loadAssets(AssetPathEntity selectedAlbum) async {
     int assetCount = await selectedAlbum.assetCountAsync;
-    List<AssetEntity> assetsList =
-        await selectedAlbum.getAssetListRange(start: 0, end: assetCount);
+    List<AssetEntity> assetsList = await selectedAlbum.getAssetListRange(
+      start: 0,
+      end: assetCount,
+    );
     return assetsList;
   }
 }

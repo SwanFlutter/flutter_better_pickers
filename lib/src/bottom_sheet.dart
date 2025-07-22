@@ -92,14 +92,8 @@ class BottomSheets extends StatefulWidget {
     this.backgroundSnackBarColor,
     this.dropdownColor,
     this.cameraImageSettings,
-    this.iconCamera = const Icon(
-      Icons.camera,
-      color: Colors.black,
-    ),
-    this.textStyleDropdown = const TextStyle(
-      fontSize: 18,
-      color: Colors.black,
-    ),
+    this.iconCamera = const Icon(Icons.camera, color: Colors.black),
+    this.textStyleDropdown = const TextStyle(fontSize: 18, color: Colors.black),
     this.loading,
   });
 
@@ -130,24 +124,22 @@ class _BottomSheetsState extends State<BottomSheets>
     setState(() {
       isLoading = true;
     });
-    Future.delayed(
-      const Duration(seconds: 10),
-      () {
-        if (mounted) {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      },
-    );
+    Future.delayed(const Duration(seconds: 10), () {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
   }
 
   Future<void> loadAlbums() async {
     List<int> fileCounts = [];
     List<File?> firstImages = [];
     try {
-      List<AssetPathEntity> albums =
-          await mediaServices.loadAlbums(widget.requestType);
+      List<AssetPathEntity> albums = await mediaServices.loadAlbums(
+        widget.requestType,
+      );
 
       for (var album in albums) {
         List<AssetEntity> assets = await mediaServices.loadAssets(album);
@@ -217,7 +209,8 @@ class _BottomSheetsState extends State<BottomSheets>
                         DropdownButton<AssetPathEntity>(
                           underline: const SizedBox.shrink(),
                           icon: const SizedBox.shrink(),
-                          dropdownColor: widget.dropdownColor ??
+                          dropdownColor:
+                              widget.dropdownColor ??
                               Theme.of(context).cardColor,
                           value: selectedAlbum,
                           onChanged: (AssetPathEntity? value) {
@@ -229,44 +222,45 @@ class _BottomSheetsState extends State<BottomSheets>
                           items: albumList
                               .asMap()
                               .entries
-                              .map<DropdownMenuItem<AssetPathEntity>>(
-                            (entry) {
-                              int index = entry.key;
-                              AssetPathEntity album = entry.value;
-                              return DropdownMenuItem<AssetPathEntity>(
-                                value: album,
-                                child: Row(
-                                  children: [
-                                    if (albumFirstImages[index] != null)
-                                      ImageFiltered(
-                                        imageFilter: ImageFilter.blur(
-                                          sigmaX: 1.0,
-                                          sigmaY: 1.0,
+                              .map<DropdownMenuItem<AssetPathEntity>>((entry) {
+                                int index = entry.key;
+                                AssetPathEntity album = entry.value;
+                                return DropdownMenuItem<AssetPathEntity>(
+                                  value: album,
+                                  child: Row(
+                                    children: [
+                                      if (albumFirstImages[index] != null)
+                                        ImageFiltered(
+                                          imageFilter: ImageFilter.blur(
+                                            sigmaX: 1.0,
+                                            sigmaY: 1.0,
+                                          ),
+                                          child: Image(
+                                            fit: BoxFit.cover,
+                                            image: FileImage(
+                                              albumFirstImages[index]!,
+                                            ),
+                                            width: 30,
+                                            height: 30,
+                                          ),
                                         ),
-                                        child: Image(
-                                          fit: BoxFit.cover,
-                                          image: FileImage(
-                                              albumFirstImages[index]!),
-                                          width: 30,
-                                          height: 30,
-                                        ),
-                                      ),
-                                    const SizedBox(width: 8),
-                                    Text(
+                                      const SizedBox(width: 8),
+                                      Text(
                                         album.name == "Recent"
                                             ? "All"
                                             : album.name,
-                                        style: widget.textStyleDropdown),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      '(${albumFileCounts[index]})',
-                                      style: widget.textStyleDropdown,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ).toList(),
+                                        style: widget.textStyleDropdown,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        '(${albumFileCounts[index]})',
+                                        style: widget.textStyleDropdown,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              })
+                              .toList(),
                         ),
                       const Spacer(),
                       IconButton(
@@ -287,16 +281,16 @@ class _BottomSheetsState extends State<BottomSheets>
                       ? Center(
                           child: isLoading
                               ? widget.loading ??
-                                  const CircularProgressIndicator.adaptive()
+                                    const CircularProgressIndicator.adaptive()
                               : Text(
                                   widget.textEmptyList,
                                   style: TextStyle(
-                                    color: widget.textEmptyListColor ??
+                                    color:
+                                        widget.textEmptyListColor ??
                                         Theme.of(context).primaryColor,
-                                    fontSize: Theme.of(context)
-                                        .primaryTextTheme
-                                        .headlineMedium!
-                                        .fontSize,
+                                    fontSize: Theme.of(
+                                      context,
+                                    ).primaryTextTheme.headlineMedium!.fontSize,
                                   ),
                                 ),
                         )
@@ -305,11 +299,11 @@ class _BottomSheetsState extends State<BottomSheets>
                           itemCount: assetsList.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
-                            crossAxisSpacing: 3,
-                            mainAxisSpacing: 3,
-                            mainAxisExtent: 100,
-                          ),
+                                crossAxisCount: 4,
+                                crossAxisSpacing: 3,
+                                mainAxisSpacing: 3,
+                                mainAxisExtent: 100,
+                              ),
                           itemBuilder: (context, index) {
                             if (index <= assetsList.length) {
                               AssetEntity assetEntity = assetsList[index];
@@ -325,7 +319,8 @@ class _BottomSheetsState extends State<BottomSheets>
                   : Padding(
                       padding: const EdgeInsets.only(bottom: 1.0),
                       child: MaterialButton(
-                        color: widget.confirmButtonColor ??
+                        color:
+                            widget.confirmButtonColor ??
                             Theme.of(context).primaryColorLight,
                         height: 55,
                         minWidth: size.width * 0.98,
@@ -344,7 +339,7 @@ class _BottomSheetsState extends State<BottomSheets>
                               SnackBar(
                                 backgroundColor:
                                     widget.backgroundSnackBarColor ??
-                                        Theme.of(context).primaryColor,
+                                    Theme.of(context).primaryColor,
                                 margin: const EdgeInsets.all(15.0),
                                 behavior: SnackBarBehavior.floating,
                                 shape: BeveledRectangleBorder(
@@ -388,10 +383,7 @@ class _BottomSheetsState extends State<BottomSheets>
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return const Center(
-                  child: Icon(
-                    Icons.error,
-                    color: Colors.red,
-                  ),
+                  child: Icon(Icons.error, color: Colors.red),
                 );
               },
             ),
@@ -402,10 +394,7 @@ class _BottomSheetsState extends State<BottomSheets>
                 alignment: Alignment.bottomRight,
                 child: Padding(
                   padding: EdgeInsets.all(10.0),
-                  child: Icon(
-                    Icons.video_library_outlined,
-                    color: Colors.red,
-                  ),
+                  child: Icon(Icons.video_library_outlined, color: Colors.red),
                 ),
               ),
             ),
@@ -433,10 +422,7 @@ class _BottomSheetsState extends State<BottomSheets>
                           ? Colors.blue
                           : Colors.white12,
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        width: 1.5,
-                        color: Colors.white,
-                      ),
+                      border: Border.all(width: 1.5, color: Colors.white),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
@@ -459,8 +445,10 @@ class _BottomSheetsState extends State<BottomSheets>
     );
   }
 
-  void selectedAsset(
-      {required AssetEntity assetEntity, required int maxCount}) {
+  void selectedAsset({
+    required AssetEntity assetEntity,
+    required int maxCount,
+  }) {
     if (selectedAssetList.contains(assetEntity)) {
       selectedAssetList.remove(assetEntity);
     } else if (selectedAssetList.length < maxCount) {
@@ -492,15 +480,13 @@ class _BottomSheetsState extends State<BottomSheets>
 
       debugPrint("Image saved: $isSaved");
 
-      setState(
-        () {
-          if (isSaved) {
-            loadAlbums();
-          } else {
-            debugPrint('Error: Image was not saved.');
-          }
-        },
-      );
+      setState(() {
+        if (isSaved) {
+          loadAlbums();
+        } else {
+          debugPrint('Error: Image was not saved.');
+        }
+      });
     }
   }
 

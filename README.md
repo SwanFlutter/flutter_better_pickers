@@ -2,16 +2,6 @@
 
 This is a multi-picker package that includes several different modes, making it easy to use.
 
-## Donation Message for Support
-
-### Quick Links for Donations:
-
-![icon-128x128](https://github.com/user-attachments/assets/b9ebe656-0984-430c-aab6-6e2ca93cd300)
-
-- <a href="https://zarinp.al/swanflutterdevpackage" target="_blank">Donate via Zarinpal</a>
-- <a href="https://swanflutterdev.com/pay.html" target="_blank">Support through our Website</a>
-
-
 ## Features
 
 - Easy integration.

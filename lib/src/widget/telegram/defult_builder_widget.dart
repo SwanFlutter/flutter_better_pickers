@@ -85,22 +85,25 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget>
                   ? Center(
                       child: widget.isLoading
                           ? widget.widget.loading ??
-                              const CircularProgressIndicator.adaptive()
+                                const CircularProgressIndicator.adaptive()
                           : Text(
                               widget.widget.textEmptyList,
                               style: TextStyle(
-                                color: widget.widget.textEmptyListColor ??
+                                color:
+                                    widget.widget.textEmptyListColor ??
                                     Theme.of(context).colorScheme.onPrimary,
-                                fontSize: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headlineMedium!
-                                    .fontSize,
+                                fontSize: Theme.of(
+                                  context,
+                                ).primaryTextTheme.headlineMedium!.fontSize,
                               ),
                             ),
                     )
                   : Padding(
-                      padding:
-                          const EdgeInsets.only(top: 15, right: 10, left: 10),
+                      padding: const EdgeInsets.only(
+                        top: 15,
+                        right: 10,
+                        left: 10,
+                      ),
                       child: Column(
                         children: [
                           Container(
@@ -126,11 +129,11 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget>
                                   itemCount: widget.assetsList.length + 1,
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 3,
-                                    mainAxisSpacing: 3,
-                                    mainAxisExtent: 115,
-                                  ),
+                                        crossAxisCount: 3,
+                                        crossAxisSpacing: 3,
+                                        mainAxisSpacing: 3,
+                                        mainAxisExtent: 115,
+                                      ),
                                   itemBuilder: (context, index) {
                                     if (index == 0) {
                                       if (widget.isRealCameraView) {
@@ -145,8 +148,10 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget>
                                     } else {
                                       AssetEntity assetEntity =
                                           widget.assetsList[index - 1];
-                                      return assetWidget(assetEntity,
-                                          widget.widget.maxCountPickMedia);
+                                      return assetWidget(
+                                        assetEntity,
+                                        widget.widget.maxCountPickMedia,
+                                      );
                                     }
                                   },
                                 ),
@@ -173,7 +178,8 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget>
                         InkResponse(
                           onTap: () {
                             debugPrint(
-                                'Selected files: ${selectedAssetList.length}');
+                              'Selected files: ${selectedAssetList.length}',
+                            );
                             _sendSelectedFiles();
                             widget.toggleSheet();
                           },
@@ -196,13 +202,16 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget>
                             decoration: BoxDecoration(
                               color: theme.colorScheme.primary,
                               shape: BoxShape.circle,
-                              border:
-                                  Border.all(color: Colors.black, width: 2.0),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 2.0,
+                              ),
                             ),
                             child: Text(
                               '${selectedAssetList.length}',
-                              style:
-                                  TextStyle(color: theme.colorScheme.onPrimary),
+                              style: TextStyle(
+                                color: theme.colorScheme.onPrimary,
+                              ),
                             ),
                           ),
                         ),
@@ -247,10 +256,7 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget>
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return const Center(
-                      child: Icon(
-                        Icons.error,
-                        color: Colors.red,
-                      ),
+                      child: Icon(Icons.error, color: Colors.red),
                     );
                   },
                 ),
@@ -261,13 +267,13 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget>
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Colors.black54,
-                      border: Border.all(
-                        width: 8,
-                        color: Colors.white70,
-                      ),
+                      border: Border.all(width: 8, color: Colors.white70),
                     ),
-                    child:
-                        const Icon(Icons.check, color: Colors.white, size: 30),
+                    child: const Icon(
+                      Icons.check,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                   ),
                 ),
             ],
@@ -277,8 +283,10 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget>
     );
   }
 
-  void selectedAsset(
-      {required AssetEntity assetEntity, required int maxCount}) {
+  void selectedAsset({
+    required AssetEntity assetEntity,
+    required int maxCount,
+  }) {
     if (selectedAssetList.contains(assetEntity)) {
       setState(() {
         selectedAssetList.remove(assetEntity);
@@ -311,15 +319,13 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget>
 
       debugPrint("Image saved: $isSaved");
 
-      setState(
-        () {
-          if (isSaved) {
-            widget.loadAlbums();
-          } else {
-            debugPrint('Error: Image was not saved.');
-          }
-        },
-      );
+      setState(() {
+        if (isSaved) {
+          widget.loadAlbums();
+        } else {
+          debugPrint('Error: Image was not saved.');
+        }
+      });
     }
   }
 

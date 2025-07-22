@@ -20,7 +20,6 @@ List<String> allowedExtensions = [
   '.ai', '.eps', // Adobe Illustrator
   '.indd', // Adobe InDesign
   '.blend', // Blender
-
   // Programming and web files
   '.html', '.css', '.js', '.php', '.py', '.java', '.cpp', '.c', '.h',
   '.swift', '.kt', '.dart', '.go', '.rb', '.pl', '.sql',

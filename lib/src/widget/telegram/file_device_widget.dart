@@ -86,8 +86,9 @@ class _FileListScreenState extends State<FileListScreen>
         var publicDirectories = await getPublicDirectories();
         for (DirectoryType? dirType in publicDirectories) {
           if (dirType != null) {
-            String? directory =
-                await externalPathIos.getDirectoryPath(directory: dirType);
+            String? directory = await externalPathIos.getDirectoryPath(
+              directory: dirType,
+            );
             if (directory != null) {
               Directory dir = Directory(directory);
               if (await dir.exists()) {
@@ -114,11 +115,14 @@ class _FileListScreenState extends State<FileListScreen>
   }
 
   Future<List<FileSystemEntity>> _getFilesRecursively(
-      Directory directory) async {
+    Directory directory,
+  ) async {
     List<FileSystemEntity> files = [];
     try {
-      await for (var entity
-          in directory.list(recursive: true, followLinks: true)) {
+      await for (var entity in directory.list(
+        recursive: true,
+        followLinks: true,
+      )) {
         if (entity is File) {
           files.add(entity);
         }
@@ -179,15 +183,18 @@ class _FileListScreenState extends State<FileListScreen>
                           itemCount: files.length,
                           itemBuilder: (context, index) {
                             FileSystemEntity file = files[index];
-                            String fileExtension =
-                                path.extension(file.path).toLowerCase();
+                            String fileExtension = path
+                                .extension(file.path)
+                                .toLowerCase();
                             bool isSelected = selectedFiles.contains(file);
 
                             return InkWell(
                               onTap: () => _toggleSelection(file),
                               child: Container(
                                 margin: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
+                                  vertical: 5,
+                                  horizontal: 10,
+                                ),
                                 decoration: BoxDecoration(
                                   color: isSelected
                                       ? theme.primaryColorLight
@@ -246,9 +253,7 @@ class _FileListScreenState extends State<FileListScreen>
                 ),
               );
             } else if (snapshot.hasError) {
-              return Center(
-                child: Text('Error: ${snapshot.error}'),
-              );
+              return Center(child: Text('Error: ${snapshot.error}'));
             } else {
               return Container(
                 decoration: BoxDecoration(
@@ -279,17 +284,15 @@ class _FileListScreenState extends State<FileListScreen>
                 InkResponse(
                   onTap: () {
                     debugPrint(
-                        'Selected files: ${selectedFiles.map((f) => f.path).toList()}');
+                      'Selected files: ${selectedFiles.map((f) => f.path).toList()}',
+                    );
                     _sendSelectedFiles();
                     widget.toggleSheet();
                   },
                   child: CircleAvatar(
                     radius: 40,
                     backgroundColor: theme.colorScheme.primary,
-                    child: Icon(
-                      Icons.send,
-                      color: theme.colorScheme.onPrimary,
-                    ),
+                    child: Icon(Icons.send, color: theme.colorScheme.onPrimary),
                   ),
                 ),
 
@@ -303,9 +306,10 @@ class _FileListScreenState extends State<FileListScreen>
                       width: 35.0,
                       height: 35.0,
                       decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.black, width: 2.0)),
+                        color: theme.colorScheme.primary,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.black, width: 2.0),
+                      ),
                       child: Text(
                         '${selectedFiles.length}',
                         style: TextStyle(color: theme.colorScheme.onPrimary),

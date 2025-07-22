@@ -97,14 +97,8 @@ class BottomSheetImageSelector extends StatefulWidget {
     this.backgroundSnackBarColor,
     this.dropdownColor,
     this.cameraImageSettings,
-    this.iconCamera = const Icon(
-      Icons.camera,
-      color: Colors.black,
-    ),
-    this.textStyleDropdown = const TextStyle(
-      fontSize: 18,
-      color: Colors.black,
-    ),
+    this.iconCamera = const Icon(Icons.camera, color: Colors.black),
+    this.textStyleDropdown = const TextStyle(fontSize: 18, color: Colors.black),
     this.loading,
   });
 
@@ -154,7 +148,8 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
 
   Future<List<AssetPathEntity>> _fetchAlbums() async {
     return await MediaServicesBottomSheetImageSelector.loadAlbums(
-        widget.requestType);
+      widget.requestType,
+    );
   }
 
   Future<void> _updateAlbums(List<AssetPathEntity> albums) async {
@@ -169,7 +164,8 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
   Future<void> _loadAssetsForSelectedAlbum() async {
     if (selectedAlbum != null) {
       final assets = await MediaServicesBottomSheetImageSelector.loadAssets(
-          selectedAlbum!);
+        selectedAlbum!,
+      );
       _updateAssets(assets);
     }
   }
@@ -218,7 +214,8 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      backgroundColor: widget.backgroundSnackBarColor ??
+                      backgroundColor:
+                          widget.backgroundSnackBarColor ??
                           Theme.of(context).primaryColor,
                       margin: const EdgeInsets.all(15.0),
                       behavior: SnackBarBehavior.floating,
@@ -252,37 +249,34 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
                     File(image!.path),
                   )
                 : (selectedEntity == null)
-                    ? const SizedBox.shrink()
-                    : Stack(
-                        children: [
-                          Positioned.fill(
-                            child: AssetEntityImage(
-                              selectedEntity!,
-                              isOriginal: false,
-                              thumbnailSize: const ThumbnailSize.square(250),
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Center(
-                                  child: Icon(
-                                    Icons.error,
-                                    color: Colors.red,
-                                  ),
-                                );
-                              },
+                ? const SizedBox.shrink()
+                : Stack(
+                    children: [
+                      Positioned.fill(
+                        child: AssetEntityImage(
+                          selectedEntity!,
+                          isOriginal: false,
+                          thumbnailSize: const ThumbnailSize.square(250),
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Center(
+                              child: Icon(Icons.error, color: Colors.red),
+                            );
+                          },
+                        ),
+                      ),
+                      if (selectedEntity!.type == AssetType.video)
+                        const Positioned.fill(
+                          child: Center(
+                            child: Icon(
+                              Icons.play_arrow,
+                              color: Colors.white,
+                              size: 50.0,
                             ),
                           ),
-                          if (selectedEntity!.type == AssetType.video)
-                            const Positioned.fill(
-                              child: Center(
-                                child: Icon(
-                                  Icons.play_arrow,
-                                  color: Colors.white,
-                                  size: 50.0,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
+                        ),
+                    ],
+                  ),
           ),
         ),
         bottomSheet: SingleChildScrollView(
@@ -301,7 +295,8 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
                           DropdownButton<AssetPathEntity>(
                             underline: const SizedBox.shrink(),
                             icon: const SizedBox.shrink(),
-                            dropdownColor: widget.dropdownColor ??
+                            dropdownColor:
+                                widget.dropdownColor ??
                                 Theme.of(context).cardColor,
                             value: selectedAlbum,
                             onChanged: (AssetPathEntity? value) {
@@ -311,25 +306,28 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
 
                               // Load the assets for the selected album.
                               MediaServicesBottomSheetImageSelector.loadAssets(
-                                      selectedAlbum!)
-                                  .then((value) {
+                                selectedAlbum!,
+                              ).then((value) {
                                 setState(() {
                                   assetsList = value;
                                 });
                               });
                             },
                             items: albumList
-                                .map<DropdownMenuItem<AssetPathEntity>>(
-                              (AssetPathEntity album) {
-                                return DropdownMenuItem<AssetPathEntity>(
-                                  value: album,
-                                  child: Text(
-                                    album.name == "Recent" ? "All" : album.name,
-                                    style: widget.textStyleDropdown,
-                                  ),
-                                );
-                              },
-                            ).toList(),
+                                .map<DropdownMenuItem<AssetPathEntity>>((
+                                  AssetPathEntity album,
+                                ) {
+                                  return DropdownMenuItem<AssetPathEntity>(
+                                    value: album,
+                                    child: Text(
+                                      album.name == "Recent"
+                                          ? "All"
+                                          : album.name,
+                                      style: widget.textStyleDropdown,
+                                    ),
+                                  );
+                                })
+                                .toList(),
                           ),
                         const Spacer(),
                         IconButton(
@@ -348,11 +346,12 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
                         ? Center(
                             child: isLoading
                                 ? widget.loading ??
-                                    const CircularProgressIndicator.adaptive()
+                                      const CircularProgressIndicator.adaptive()
                                 : Text(
                                     widget.textEmptyList,
                                     style: TextStyle(
-                                      color: widget.textEmptyListColor ??
+                                      color:
+                                          widget.textEmptyListColor ??
                                           Theme.of(context).primaryColor,
                                       fontSize: Theme.of(context)
                                           .primaryTextTheme
@@ -366,17 +365,19 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
                             itemCount: assetsList.reversed.length,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4,
-                              crossAxisSpacing: 3,
-                              mainAxisSpacing: 3,
-                              mainAxisExtent: 100,
-                              childAspectRatio: 5.0,
-                            ),
+                                  crossAxisCount: 4,
+                                  crossAxisSpacing: 3,
+                                  mainAxisSpacing: 3,
+                                  mainAxisExtent: 100,
+                                  childAspectRatio: 5.0,
+                                ),
                             itemBuilder: (context, index) {
                               if (index <= assetsList.length) {
                                 AssetEntity assetEntity = assetsList[index];
                                 return assetWidget(
-                                    assetEntity, widget.maxCount);
+                                  assetEntity,
+                                  widget.maxCount,
+                                );
                               }
                               return const SizedBox.shrink();
                             },
@@ -408,10 +409,7 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return const Center(
-                  child: Icon(
-                    Icons.error,
-                    color: Colors.red,
-                  ),
+                  child: Icon(Icons.error, color: Colors.red),
                 );
               },
             ),
@@ -422,10 +420,7 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
                 alignment: Alignment.bottomRight,
                 child: Padding(
                   padding: EdgeInsets.all(10.0),
-                  child: Icon(
-                    Icons.video_library_outlined,
-                    color: Colors.red,
-                  ),
+                  child: Icon(Icons.video_library_outlined, color: Colors.red),
                 ),
               ),
             ),
@@ -453,10 +448,7 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
                           ? Colors.blue
                           : Colors.white12,
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        width: 1.5,
-                        color: Colors.white,
-                      ),
+                      border: Border.all(width: 1.5, color: Colors.white),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
@@ -479,8 +471,10 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
     );
   }
 
-  void selectedAsset(
-      {required AssetEntity assetEntity, required int maxCount}) {
+  void selectedAsset({
+    required AssetEntity assetEntity,
+    required int maxCount,
+  }) {
     if (selectedAssetList.contains(assetEntity)) {
       setState(() {
         selectedAssetList.remove(assetEntity);
@@ -512,15 +506,13 @@ class _BottomSheetImageSelectorState extends State<BottomSheetImageSelector>
 
       debugPrint("Image saved: $isSaved");
 
-      setState(
-        () {
-          if (isSaved) {
-            _loadAlbum();
-          } else {
-            debugPrint('Error: Image was not saved.');
-          }
-        },
-      );
+      setState(() {
+        if (isSaved) {
+          _loadAlbum();
+        } else {
+          debugPrint('Error: Image was not saved.');
+        }
+      });
     }
   }
 }

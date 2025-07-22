@@ -132,10 +132,7 @@ class FlutterBetterPicker extends StatefulWidget {
     this.cameraImageSettings,
     this.title = const Text(
       'Album',
-      style: TextStyle(
-        fontSize: 22,
-        color: Colors.white,
-      ),
+      style: TextStyle(fontSize: 22, color: Colors.white),
     ),
     super.key,
   });
@@ -160,10 +157,7 @@ class FlutterBetterPicker extends StatefulWidget {
     Color textEmptyListColor = const Color(0xFF6A0DAD),
     Widget title = const Text(
       'Album',
-      style: TextStyle(
-        fontSize: 22,
-        color: Colors.white,
-      ),
+      style: TextStyle(fontSize: 22, color: Colors.white),
     ),
   }) async {
     final result = await Navigator.push(
@@ -209,10 +203,7 @@ class FlutterBetterPicker extends StatefulWidget {
     final Color? textEmptyListColor,
     final Color? backgroundSnackBarColor,
     final Color? dropdownColor,
-    final Widget iconCamera = const Icon(
-      Icons.camera,
-      color: Colors.black,
-    ),
+    final Widget iconCamera = const Icon(Icons.camera, color: Colors.black),
     final TextStyle textStyleDropdown = const TextStyle(
       fontSize: 18,
       color: Colors.black,
@@ -303,10 +294,7 @@ class FlutterBetterPicker extends StatefulWidget {
       fontSize: 18,
       color: Colors.black,
     ),
-    final Widget iconCamera = const Icon(
-      Icons.camera,
-      color: Colors.black,
-    ),
+    final Widget iconCamera = const Icon(Icons.camera, color: Colors.black),
     final Widget? loading,
     CameraImageSettings? cameraImageSettings,
   }) async {
@@ -473,17 +461,17 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker>
         appBar: AppBar(
           elevation: 0,
           backgroundColor: widget.appbarColor,
-          leading: const BackButton(
-            color: Colors.white,
-          ),
+          leading: const BackButton(color: Colors.white),
           centerTitle: true,
           title: widget.title,
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 15.0),
               child: InkResponse(
-                child: Text(widget.confirmText,
-                    style: TextStyle(color: widget.confirmTextColor)),
+                child: Text(
+                  widget.confirmText,
+                  style: TextStyle(color: widget.confirmTextColor),
+                ),
                 onTap: () {
                   if (selectedAssetList.isEmpty && selectedEntity != null) {
                     selectedAssetList = [selectedEntity!];
@@ -506,7 +494,7 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker>
                   }
                 },
               ),
-            )
+            ),
           ],
         ),
         body: Column(
@@ -518,39 +506,37 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker>
                       fit: BoxFit.cover,
                       height: size.height,
                       width: size.width,
-                      File(image!.path))
+                      File(image!.path),
+                    )
                   : (selectedEntity == null)
-                      ? const SizedBox.shrink()
-                      : Stack(
-                          children: [
-                            Positioned.fill(
-                              child: AssetEntityImage(
-                                selectedEntity!,
-                                isOriginal: false,
-                                thumbnailSize: const ThumbnailSize.square(250),
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Center(
-                                    child: Icon(
-                                      Icons.error,
-                                      color: Colors.red,
-                                    ),
-                                  );
-                                },
+                  ? const SizedBox.shrink()
+                  : Stack(
+                      children: [
+                        Positioned.fill(
+                          child: AssetEntityImage(
+                            selectedEntity!,
+                            isOriginal: false,
+                            thumbnailSize: const ThumbnailSize.square(250),
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Center(
+                                child: Icon(Icons.error, color: Colors.red),
+                              );
+                            },
+                          ),
+                        ),
+                        if (selectedEntity!.type == AssetType.video)
+                          const Positioned.fill(
+                            child: Center(
+                              child: Icon(
+                                Icons.play_arrow,
+                                color: Colors.white,
+                                size: 50.0,
                               ),
                             ),
-                            if (selectedEntity!.type == AssetType.video)
-                              const Positioned.fill(
-                                child: Center(
-                                  child: Icon(
-                                    Icons.play_arrow,
-                                    color: Colors.white,
-                                    size: 50.0,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
+                          ),
+                      ],
+                    ),
             ),
             Flexible(
               child: Column(
@@ -622,21 +608,22 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker>
                         ? Center(
                             child: isLoding
                                 ? widget.loading ??
-                                    const CircularProgressIndicator.adaptive()
+                                      const CircularProgressIndicator.adaptive()
                                 : Text(
                                     widget.textEmptyList,
-                                    style:
-                                        TextStyle(color: widget.nullColorText),
+                                    style: TextStyle(
+                                      color: widget.nullColorText,
+                                    ),
                                   ),
                           )
                         : GridView.builder(
                             physics: const BouncingScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4,
-                              mainAxisSpacing: 1,
-                              crossAxisSpacing: 1,
-                            ),
+                                  crossAxisCount: 4,
+                                  mainAxisSpacing: 1,
+                                  crossAxisSpacing: 1,
+                                ),
                             itemCount: assetsList.length,
                             itemBuilder: (context, index) {
                               if (index < assetsList.length) {
@@ -717,10 +704,7 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker>
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return const Center(
-                  child: Icon(
-                    Icons.error,
-                    color: Colors.red,
-                  ),
+                  child: Icon(Icons.error, color: Colors.red),
                 );
               },
             ),
@@ -731,10 +715,7 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker>
                 alignment: Alignment.bottomRight,
                 child: Padding(
                   padding: EdgeInsets.all(10.0),
-                  child: Icon(
-                    Icons.video_library_outlined,
-                    color: Colors.red,
-                  ),
+                  child: Icon(Icons.video_library_outlined, color: Colors.red),
                 ),
               ),
             ),
@@ -761,10 +742,7 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker>
                             ? Colors.blue
                             : Colors.white12,
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          width: 1.5,
-                          color: Colors.white,
-                        ),
+                        border: Border.all(width: 1.5, color: Colors.white),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -773,8 +751,8 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker>
                           style: TextStyle(
                             color:
                                 selectedAssetList.contains(assetEntity) == true
-                                    ? Colors.white
-                                    : Colors.transparent,
+                                ? Colors.white
+                                : Colors.transparent,
                           ),
                         ),
                       ),

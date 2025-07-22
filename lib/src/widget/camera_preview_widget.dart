@@ -84,8 +84,11 @@ class FackeCameraWidget extends StatelessWidget {
               Positioned(
                 top: MediaQuery.of(context).size.height * 0.044,
                 left: MediaQuery.of(context).size.width * 0.098,
-                child:
-                    const Icon(Icons.camera_alt, color: Colors.white, size: 50),
+                child: const Icon(
+                  Icons.camera_alt,
+                  color: Colors.white,
+                  size: 50,
+                ),
               ),
             ],
           ),

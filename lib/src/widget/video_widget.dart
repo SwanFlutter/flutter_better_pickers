@@ -58,8 +58,9 @@ class _VideoWidgetState extends State<VideoWidget> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
-                            padding:
-                                EdgeInsets.only(top: widget.size.height * 0.4),
+                            padding: EdgeInsets.only(
+                              top: widget.size.height * 0.4,
+                            ),
                             child: Center(
                               child: widget.loading
                                   ? const CircularProgressIndicator.adaptive()
@@ -79,16 +80,18 @@ class _VideoWidgetState extends State<VideoWidget> {
                         itemCount: widget.assetsList.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 3,
-                          mainAxisSpacing: 3,
-                          mainAxisExtent: 115,
-                          childAspectRatio: 5.0,
-                        ),
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 3,
+                              mainAxisSpacing: 3,
+                              mainAxisExtent: 115,
+                              childAspectRatio: 5.0,
+                            ),
                         itemBuilder: (context, index) {
                           AssetEntity assetEntity = widget.assetsList[index];
                           return assetWidget(
-                              assetEntity, widget.widget.maxCount);
+                            assetEntity,
+                            widget.widget.maxCount,
+                          );
                         },
                       ),
               )
@@ -129,10 +132,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                     excludeFromSemantics: true,
                     errorBuilder: (context, error, stackTrace) {
                       return const Center(
-                        child: Icon(
-                          Icons.error,
-                          color: Colors.red,
-                        ),
+                        child: Icon(Icons.error, color: Colors.red),
                       );
                     },
                   ),
@@ -143,10 +143,7 @@ class _VideoWidgetState extends State<VideoWidget> {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: EdgeInsets.all(10.0),
-                child: Icon(
-                  Icons.video_library_outlined,
-                  color: Colors.red,
-                ),
+                child: Icon(Icons.video_library_outlined, color: Colors.red),
               ),
             ),
           ),
@@ -156,10 +153,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: isSelected ? Colors.black54 : Colors.transparent,
-                  border: Border.all(
-                    width: 8,
-                    color: Colors.white70,
-                  ),
+                  border: Border.all(width: 8, color: Colors.white70),
                 ),
                 child: const Icon(Icons.check, color: Colors.white, size: 30),
               ),
@@ -169,8 +163,10 @@ class _VideoWidgetState extends State<VideoWidget> {
     );
   }
 
-  void selectedAsset(
-      {required AssetEntity assetEntity, required int maxCount}) {
+  void selectedAsset({
+    required AssetEntity assetEntity,
+    required int maxCount,
+  }) {
     if (widget.selectedAssetList.contains(assetEntity)) {
       setState(() {
         widget.selectedAssetList.remove(assetEntity);

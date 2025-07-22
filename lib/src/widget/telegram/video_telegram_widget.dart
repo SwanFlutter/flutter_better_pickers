@@ -120,15 +120,17 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                               itemCount: videoAssets.length,
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                crossAxisSpacing: 3,
-                                mainAxisSpacing: 3,
-                                mainAxisExtent: 115,
-                              ),
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 3,
+                                    mainAxisSpacing: 3,
+                                    mainAxisExtent: 115,
+                                  ),
                               itemBuilder: (context, index) {
                                 AssetEntity assetEntity = videoAssets[index];
-                                return assetWidget(assetEntity,
-                                    widget.widget.maxCountPickMedia);
+                                return assetWidget(
+                                  assetEntity,
+                                  widget.widget.maxCountPickMedia,
+                                );
                               },
                             ),
                           ),
@@ -152,7 +154,8 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                         InkResponse(
                           onTap: () {
                             debugPrint(
-                                'Selected files: ${selectedAssetList.length}');
+                              'Selected files: ${selectedAssetList.length}',
+                            );
                             _sendSelectedFiles();
                             widget.toggleSheet();
                           },
@@ -175,13 +178,16 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                             decoration: BoxDecoration(
                               color: theme.colorScheme.primary,
                               shape: BoxShape.circle,
-                              border:
-                                  Border.all(color: Colors.black, width: 2.0),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 2.0,
+                              ),
                             ),
                             child: Text(
                               '${selectedAssetList.length}',
-                              style:
-                                  TextStyle(color: theme.colorScheme.onPrimary),
+                              style: TextStyle(
+                                color: theme.colorScheme.onPrimary,
+                              ),
                             ),
                           ),
                         ),
@@ -214,10 +220,7 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return const Center(
-                      child: Icon(
-                        Icons.error,
-                        color: Colors.red,
-                      ),
+                      child: Icon(Icons.error, color: Colors.red),
                     );
                   },
                 ),
@@ -228,13 +231,13 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Colors.black54,
-                      border: Border.all(
-                        width: 8,
-                        color: Colors.white70,
-                      ),
+                      border: Border.all(width: 8, color: Colors.white70),
                     ),
-                    child:
-                        const Icon(Icons.check, color: Colors.white, size: 30),
+                    child: const Icon(
+                      Icons.check,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                   ),
                 ),
             ],
@@ -244,8 +247,10 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
     );
   }
 
-  void selectedAsset(
-      {required AssetEntity assetEntity, required int maxCount}) {
+  void selectedAsset({
+    required AssetEntity assetEntity,
+    required int maxCount,
+  }) {
     if (selectedAssetList.contains(assetEntity)) {
       setState(() {
         selectedAssetList.remove(assetEntity);

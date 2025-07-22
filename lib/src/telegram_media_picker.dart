@@ -20,8 +20,8 @@ export 'package:flutter_better_pickers/src/widget/global/camera_image_setting.da
 late ThemeData theme;
 
 /// The callback function to call when media files are picked.
-typedef OnMediaPicked = void Function(
-    List<AssetEntity>? assets, List<FileSystemEntity>? files);
+typedef OnMediaPicked =
+    void Function(List<AssetEntity>? assets, List<FileSystemEntity>? files);
 
 /// A stateful widget that allows users to pick media files (images, videos, audio, files) from their device.
 ///
@@ -143,12 +143,11 @@ class TelegramMediaPickers extends StatefulWidget {
     this.onMediaPicked,
     this.maxCountPickFiles = 5,
     this.cameraImageSettings,
-    this.textStyleEmptyListText =
-        const TextStyle(color: Colors.grey, fontSize: 18),
-    this.iconCamera = const Icon(
-      Icons.camera,
-      color: Colors.black,
+    this.textStyleEmptyListText = const TextStyle(
+      color: Colors.grey,
+      fontSize: 18,
     ),
+    this.iconCamera = const Icon(Icons.camera, color: Colors.black),
     this.loading,
   });
 
@@ -235,8 +234,9 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
   Future<void> loadAlbums({BuildContext? context}) async {
     try {
       final albums = await _fetchAlbums();
-      final fileCountsAndFirstImages =
-          await _fetchFileCountsAndFirstImages(albums);
+      final fileCountsAndFirstImages = await _fetchFileCountsAndFirstImages(
+        albums,
+      );
       _updateStateWithAlbums(albums, fileCountsAndFirstImages);
     } catch (e) {
       _handleError(context, e);
@@ -248,7 +248,8 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
   }
 
   Future<Map<String, dynamic>> _fetchFileCountsAndFirstImages(
-      List<AssetPathEntity> albums) async {
+    List<AssetPathEntity> albums,
+  ) async {
     List<int> fileCounts = [];
     List<File?> firstImages = [];
 
@@ -264,14 +265,13 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
       }
     }
 
-    return {
-      'fileCounts': fileCounts,
-      'firstImages': firstImages,
-    };
+    return {'fileCounts': fileCounts, 'firstImages': firstImages};
   }
 
-  void _updateStateWithAlbums(List<AssetPathEntity> albums,
-      Map<String, dynamic> fileCountsAndFirstImages) {
+  void _updateStateWithAlbums(
+    List<AssetPathEntity> albums,
+    Map<String, dynamic> fileCountsAndFirstImages,
+  ) {
     setState(() {
       albumList = albums;
       albumFileCounts = fileCountsAndFirstImages['fileCounts'];
@@ -383,7 +383,8 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                       filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
                       child: Container(
                         color: Colors.black.withValues(
-                            alpha: 0.3), // Semi-transparent background
+                          alpha: 0.3,
+                        ), // Semi-transparent background
                       ),
                     ),
                     SafeArea(
@@ -418,10 +419,12 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                           },
                                           onFilesSelected:
                                               (assets, selectedFiles) {
-                                            widget.onMediaPicked
-                                                ?.call(null, selectedFiles);
-                                            setState(() {});
-                                          },
+                                                widget.onMediaPicked?.call(
+                                                  null,
+                                                  selectedFiles,
+                                                );
+                                                setState(() {});
+                                              },
                                         );
                                       } else if (isVideo) {
                                         return VideoOnlyPage(
@@ -438,10 +441,12 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                           },
                                           onFilesSelected:
                                               (assets, selectedFiles) {
-                                            widget.onMediaPicked
-                                                ?.call(null, selectedFiles);
-                                            setState(() {});
-                                          },
+                                                widget.onMediaPicked?.call(
+                                                  null,
+                                                  selectedFiles,
+                                                );
+                                                setState(() {});
+                                              },
                                         );
                                       } else if (isAudio) {
                                         return AudioTelegramWidget(
@@ -458,10 +463,12 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                           },
                                           onFilesSelected:
                                               (assets, selectedFiles) {
-                                            widget.onMediaPicked
-                                                ?.call(null, selectedFiles);
-                                            setState(() {});
-                                          },
+                                                widget.onMediaPicked?.call(
+                                                  null,
+                                                  selectedFiles,
+                                                );
+                                                setState(() {});
+                                              },
                                         );
                                       } else {
                                         return DefultBuilderWidget(
@@ -483,8 +490,10 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                           selectedAlbum: selectedAlbum,
                                           selectedEntity: selectedEntity,
                                           onMediaPicked: (assets, files) {
-                                            widget.onMediaPicked
-                                                ?.call(assets, null);
+                                            widget.onMediaPicked?.call(
+                                              assets,
+                                              null,
+                                            );
                                             setState(() {});
                                           },
                                         );
@@ -505,21 +514,24 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                           child: AnimatedOpacity(
                                             opacity: showAppBar ? 1.0 : 0.0,
                                             duration: const Duration(
-                                                milliseconds: 400),
+                                              milliseconds: 400,
+                                            ),
                                             child: AnimatedContainer(
                                               duration: const Duration(
-                                                  milliseconds: 400),
+                                                milliseconds: 400,
+                                              ),
                                               height: showAppBar
-                                                  ? MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.075
+                                                  ? MediaQuery.of(
+                                                          context,
+                                                        ).size.height *
+                                                        0.075
                                                   : 0,
                                               color: theme.primaryColor,
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        horizontal: 15.0),
+                                                      horizontal: 15.0,
+                                                    ),
                                                 child: Row(
                                                   children: [
                                                     IconButton(
@@ -529,16 +541,15 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                                       icon: Icon(
                                                         Icons
                                                             .arrow_back_ios_new,
-                                                        color: theme.colorScheme
+                                                        color: theme
+                                                            .colorScheme
                                                             .onPrimary,
                                                       ),
                                                     ),
                                                     const SizedBox(width: 15),
                                                     InkWell(
                                                       onTap: () {
-                                                        album(
-                                                          context,
-                                                        );
+                                                        album(context);
                                                       },
                                                       child: Row(
                                                         children: [
@@ -550,17 +561,19 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                                                         "Recent"
                                                                 ? "Gallery"
                                                                 : selectedAlbum
-                                                                        ?.name ??
-                                                                    '',
+                                                                          ?.name ??
+                                                                      '',
                                                             style:
                                                                 const TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        22.0),
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      22.0,
+                                                                ),
                                                           ),
                                                           const SizedBox(
-                                                              width: 5),
+                                                            width: 5,
+                                                          ),
                                                           Icon(
                                                             Icons
                                                                 .keyboard_arrow_down_sharp,
@@ -568,10 +581,10 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                                                 .colorScheme
                                                                 .onPrimary,
                                                             size: 28,
-                                                          )
+                                                          ),
                                                         ],
                                                       ),
-                                                    )
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -592,22 +605,25 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                         left: 0,
                                         child: AnimatedOpacity(
                                           opacity: showBottomBar ? 1.0 : 0.0,
-                                          duration:
-                                              const Duration(milliseconds: 300),
+                                          duration: const Duration(
+                                            milliseconds: 300,
+                                          ),
                                           child: AnimatedContainer(
                                             duration: const Duration(
-                                                milliseconds: 300),
+                                              milliseconds: 300,
+                                            ),
                                             height: showBottomBar
-                                                ? MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.095
+                                                ? MediaQuery.of(
+                                                        context,
+                                                      ).size.height *
+                                                      0.095
                                                 : 0,
                                             color: theme.primaryColor,
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                      horizontal: 15.0),
+                                                    horizontal: 15.0,
+                                                  ),
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -629,21 +645,23 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                                                 .center,
                                                         children: [
                                                           Icon(
-                                                              CupertinoIcons
-                                                                  .doc,
-                                                              color: theme
-                                                                  .colorScheme
-                                                                  .onPrimary,
-                                                              size: 28),
+                                                            CupertinoIcons.doc,
+                                                            color: theme
+                                                                .colorScheme
+                                                                .onPrimary,
+                                                            size: 28,
+                                                          ),
                                                           const SizedBox(
-                                                              height: 2),
+                                                            height: 2,
+                                                          ),
                                                           Text(
                                                             "File",
                                                             style: TextStyle(
-                                                                color: theme
-                                                                    .colorScheme
-                                                                    .onPrimary,
-                                                                fontSize: 14.0),
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                              fontSize: 14.0,
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
@@ -665,21 +683,23 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                                                 .center,
                                                         children: [
                                                           Icon(
-                                                              CupertinoIcons
-                                                                  .film,
-                                                              color: theme
-                                                                  .colorScheme
-                                                                  .onPrimary,
-                                                              size: 28),
+                                                            CupertinoIcons.film,
+                                                            color: theme
+                                                                .colorScheme
+                                                                .onPrimary,
+                                                            size: 28,
+                                                          ),
                                                           const SizedBox(
-                                                              height: 2),
+                                                            height: 2,
+                                                          ),
                                                           Text(
                                                             "Video",
                                                             style: TextStyle(
-                                                                color: theme
-                                                                    .colorScheme
-                                                                    .onPrimary,
-                                                                fontSize: 14.0),
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                              fontSize: 14.0,
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
@@ -709,14 +729,16 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                                             size: 28,
                                                           ),
                                                           const SizedBox(
-                                                              height: 2),
+                                                            height: 2,
+                                                          ),
                                                           Text(
                                                             "Audio",
                                                             style: TextStyle(
-                                                                color: theme
-                                                                    .colorScheme
-                                                                    .onPrimary,
-                                                                fontSize: 14.0),
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                              fontSize: 14.0,
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
@@ -812,7 +834,8 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                     // Load assets for the selected album
                                     final assets =
                                         await MediaServices.loadAssets(
-                                            selectedAlbum!);
+                                          selectedAlbum!,
+                                        );
 
                                     // Update the UI
                                     setState(() {
@@ -841,14 +864,16 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                           child: Image(
                                             fit: BoxFit.cover,
                                             image: FileImage(
-                                                albumFirstImages[index]!),
+                                              albumFirstImages[index]!,
+                                            ),
                                             width: 25,
                                             height: 25,
                                           ),
                                         ),
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15.0),
+                                        padding: const EdgeInsets.only(
+                                          left: 15.0,
+                                        ),
                                         child: Text(
                                           albumList[index].name == "Recent"
                                               ? "Gallery"
@@ -867,7 +892,9 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                                           color: theme.primaryColorLight,
                                           fontWeight: FontWeight.w500,
                                           fontSize: theme
-                                              .textTheme.bodySmall?.fontSize,
+                                              .textTheme
+                                              .bodySmall
+                                              ?.fontSize,
                                         ),
                                       ),
                                     ],

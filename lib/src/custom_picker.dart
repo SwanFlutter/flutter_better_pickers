@@ -73,10 +73,7 @@ class CustomPicker extends StatefulWidget {
     this.textEmptyListColor = const Color(0xFF6A0DAD),
     this.title = const Text(
       'Album',
-      style: TextStyle(
-        fontSize: 22,
-        color: Colors.white,
-      ),
+      style: TextStyle(fontSize: 22, color: Colors.white),
     ),
   });
 
@@ -132,45 +129,46 @@ class _CustomPickerState extends State<CustomPicker>
     setState(() {
       isLoading = true;
     });
-    Future.delayed(
-      const Duration(seconds: 10),
-      () {
-        if (mounted) {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      },
-    );
+    Future.delayed(const Duration(seconds: 10), () {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
   }
 
   Future<void> _loadAlbum() async {
-    MediaServices.loadAlbums(widget.requestType).then((value) {
-      setState(() {
-        if (value == null || value.isEmpty) {
-          albumList = [];
-        } else {
-          albumList = value;
-          selectedAlbum = value[0];
+    MediaServices.loadAlbums(widget.requestType)
+        .then((value) {
+          setState(() {
+            if (value == null || value.isEmpty) {
+              albumList = [];
+            } else {
+              albumList = value;
+              selectedAlbum = value[0];
 
-          MediaServices.loadAssets(selectedAlbum!).then((value) {
-            setState(() {
-              if (value == null || value.isEmpty) {
-                selectedEntity = null;
-                assetsList = [];
-              } else {
-                selectedEntity = value[0];
-                assetsList = value;
-              }
-            });
-          }).catchError((error) {
-            debugPrint("Error loading assets: $error");
+              MediaServices.loadAssets(selectedAlbum!)
+                  .then((value) {
+                    setState(() {
+                      if (value == null || value.isEmpty) {
+                        selectedEntity = null;
+                        assetsList = [];
+                      } else {
+                        selectedEntity = value[0];
+                        assetsList = value;
+                      }
+                    });
+                  })
+                  .catchError((error) {
+                    debugPrint("Error loading assets: $error");
+                  });
+            }
           });
-        }
-      });
-    }).catchError((error) {
-      debugPrint("Error loading albums: $error");
-    });
+        })
+        .catchError((error) {
+          debugPrint("Error loading albums: $error");
+        });
   }
 
   @override
@@ -273,7 +271,7 @@ class _CustomPickerState extends State<CustomPicker>
                             assetsList: assetsList,
                             selectedEntity: selectedEntity,
                             loading: isLoading,
-                          )
+                          ),
                         ],
                       ),
                     ),

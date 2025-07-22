@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
           TelegramMediaPickers(
             key: _sheetKey,
             requestType:
-            MyRequestType.all, // Set to 'all' to display all media types
+                MyRequestType.all, // Set to 'all' to display all media types
             maxCountPickMedia: 5,
             maxCountPickFiles: 5,
             primeryColor: Colors.green,
