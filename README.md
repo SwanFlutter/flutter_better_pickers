@@ -27,7 +27,7 @@ import 'package:flutter_better_pickers/flutter_better_pickers.dart';
 ```yaml
 
   dependencies:
-  flutter_better_pickers: ^0.0.4
+  flutter_better_pickers: ^0.0.5
        
        
 ```

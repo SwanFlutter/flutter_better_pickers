@@ -1,3 +1,13 @@
+
+## 0.0.5
+
+* **Maintenance:**
+  * Bumped `permission_handler` to ^12.0.1.
+  * Bumped `camera` to ^0.11.3.
+  * Bumped `lucide_icons_flutter` to ^3.1.8.
+  * Declared Android/iOS platform support in `pubspec.yaml`.
+
+
 ## 0.0.4
 
 * **New Features:**
