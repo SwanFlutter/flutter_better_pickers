@@ -3,6 +3,11 @@ description: "This is a multi-picker package that includes several different mod
 version: 0.0.5
 homepage: "https://github.com/SwanFlutter/flutter_better_pickers"
 
+
+platforms:
+  android:
+  ios:
+
 environment:
   sdk: ^3.10.0
   flutter: ">=1.17.0"
@@ -28,6 +33,4 @@ dev_dependencies:
 
 
 flutter:
-  platforms:
-    android:
-    ios:
+  uses-material-design: true

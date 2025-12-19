@@ -1,5 +1,14 @@
 // ignore_for_file: unnecessary_import
 
+/// A comprehensive Flutter package for picking media (images and videos) from device storage.
+///
+/// flutter_better_pickers provides multiple picker modes with customizable UI and themes.
+/// It supports Android and iOS platforms with features like:
+/// - Multiple media selection
+/// - Album/folder browsing
+/// - Camera integration
+/// - Customizable styling and labels
+/// - Permission handling
 library;
 
 import 'dart:async';
@@ -34,6 +43,24 @@ export 'package:flutter_better_pickers/src/widget/global/camera_image_setting.da
 export 'package:media_manager/media_manager.dart';
 
 /// A stateful widget that allows users to pick media files from their device.
+///
+/// [FlutterBetterPicker] provides a comprehensive media picker interface with support for:
+/// - Multiple media selection (images and videos)
+/// - Album/folder navigation
+/// - Camera capture integration
+/// - Customizable colors, text, and styling
+/// - Permission handling
+///
+/// Example:
+/// ```dart
+/// FlutterBetterPicker(
+///   maxCount: 10,
+///   requestType: MyRequestType.image,
+///   onDone: (List<AssetEntity> selectedAssets) {
+///     // Handle selected assets
+///   },
+/// )
+/// ```
 class FlutterBetterPicker extends StatefulWidget {
   final int maxCount;
   final media_services.MyRequestType requestType;
