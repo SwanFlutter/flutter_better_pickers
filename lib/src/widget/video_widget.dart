@@ -35,7 +35,9 @@ class _VideoWidgetState extends State<VideoWidget> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.videoPath != widget.videoPath ||
         oldWidget.mediaManager != widget.mediaManager) {
-      _thumbnailFuture = widget.mediaManager.getVideoThumbnail(widget.videoPath);
+      _thumbnailFuture = widget.mediaManager.getVideoThumbnail(
+        widget.videoPath,
+      );
     }
   }
 

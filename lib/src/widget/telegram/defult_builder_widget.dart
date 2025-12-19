@@ -192,7 +192,9 @@ class _DefultBuilderWidgetState extends State<DefultBuilderWidget>
                                 return GestureDetector(
                                   onTap: _pickFromCamera,
                                   child: Container(
-                                    color: _style.primaryColor.withOpacity(0.3),
+                                    color: _style.primaryColor.withValues(
+                                      alpha: 0.3,
+                                    ),
                                     child: Center(
                                       child: Icon(
                                         Icons.camera_alt_outlined,

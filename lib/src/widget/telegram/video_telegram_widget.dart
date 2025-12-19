@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_better_pickers/flutter_better_pickers.dart';
-import 'package:flutter_better_pickers/src/telegram_media_picker.dart';
 import 'package:flutter_better_pickers/src/tools/media_manager_wrapper.dart';
 
 class VideoOnlyPage extends StatefulWidget {
@@ -41,7 +40,7 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
   bool _isLoading = true;
 
   final Map<String, Future<Uint8List?>> _thumbnailFutures = {};
-  
+
   PickerLabels get _labels => widget.widget.labels ?? const PickerLabels();
   PickerStyle get _style => widget.widget.style ?? const PickerStyle();
 
@@ -101,65 +100,68 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
           child: _isLoading
               ? const Center(child: CircularProgressIndicator.adaptive())
               : videoAssets.isEmpty
-                  ? Center(
-                      child: Text(
-                        _labels.noVideosFound,
-                        style: _style.emptyListTextStyle ?? TextStyle(
+              ? Center(
+                  child: Text(
+                    _labels.noVideosFound,
+                    style:
+                        _style.emptyListTextStyle ??
+                        TextStyle(
                           color: _style.emptyListTextColor,
                           fontSize: 18,
                         ),
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(top: 15, right: 10, left: 10),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 7,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.only(top: 15, right: 10, left: 10),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 7,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                      const SizedBox(height: 10),
+                      Flexible(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          const SizedBox(height: 10),
-                          Flexible(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: GridView.builder(
-                                  shrinkWrap: true,
-                                  controller: widget.controller,
-                                  physics: const BouncingScrollPhysics(),
-                                  itemCount: videoAssets.length,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              controller: widget.controller,
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: videoAssets.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,
                                     crossAxisSpacing: 3,
                                     mainAxisSpacing: 3,
                                     mainAxisExtent: 115,
                                   ),
-                                  itemBuilder: (context, index) {
-                                    final videoPath = videoAssets[index];
-                                    return _buildVideoTile(videoPath);
-                                  },
-                                ),
-                              ),
+                              itemBuilder: (context, index) {
+                                final videoPath = videoAssets[index];
+                                return _buildVideoTile(videoPath);
+                              },
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
+                  ),
+                ),
         ),
         ValueListenableBuilder<List<String>>(
           valueListenable: selectedAssetListNotifier,
           builder: (context, selectedAssetList, child) {
             return selectedAssetList.isNotEmpty
                 ? Positioned(
-                    bottom: MediaQuery.of(context).padding.bottom +
+                    bottom:
+                        MediaQuery.of(context).padding.bottom +
                         MediaQuery.of(context).size.height * 0.10,
                     right: 30,
                     child: Stack(
@@ -169,7 +171,8 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                         InkResponse(
                           onTap: () {
                             debugPrint(
-                                'Selected files: ${selectedAssetList.length}');
+                              'Selected files: ${selectedAssetList.length}',
+                            );
                             _sendSelectedFiles();
                             widget.toggleSheet();
                           },
@@ -192,13 +195,16 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                             decoration: BoxDecoration(
                               color: theme.colorScheme.primary,
                               shape: BoxShape.circle,
-                              border:
-                                  Border.all(color: Colors.black, width: 2.0),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 2.0,
+                              ),
                             ),
                             child: Text(
                               '${selectedAssetList.length}',
-                              style:
-                                  TextStyle(color: theme.colorScheme.onPrimary),
+                              style: TextStyle(
+                                color: theme.colorScheme.onPrimary,
+                              ),
                             ),
                           ),
                         ),
@@ -267,13 +273,13 @@ class _VideoOnlyPageState extends State<VideoOnlyPage> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Colors.black54,
-                      border: Border.all(
-                        width: 8,
-                        color: Colors.white70,
-                      ),
+                      border: Border.all(width: 8, color: Colors.white70),
                     ),
-                    child:
-                        const Icon(Icons.check, color: Colors.white, size: 30),
+                    child: const Icon(
+                      Icons.check,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                   ),
                 ),
             ],

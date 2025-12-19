@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_better_pickers/flutter_better_pickers.dart';
-import 'package:flutter_better_pickers/src/custom_picker.dart';
 
 class ImageWidget extends StatefulWidget {
   /// The size of the image widget.
@@ -43,7 +42,7 @@ class ImageWidget extends StatefulWidget {
 class _ImageWidgetState extends State<ImageWidget> {
   PickerLabels get _labels => widget.widget.labels ?? const PickerLabels();
   PickerStyle get _style => widget.widget.style ?? const PickerStyle();
-  
+
   @override
   void initState() {
     super.initState();
@@ -63,13 +62,16 @@ class _ImageWidgetState extends State<ImageWidget> {
                   child: widget.assetsList.isEmpty
                       ? Center(
                           child: widget.loading
-                              ? _style.loadingWidget ?? const CircularProgressIndicator.adaptive()
+                              ? _style.loadingWidget ??
+                                    const CircularProgressIndicator.adaptive()
                               : Text(
                                   _labels.noImagesFound,
-                                  style: _style.emptyListTextStyle ?? TextStyle(
-                                    color: _style.emptyListTextColor,
-                                    fontSize: 20,
-                                  ),
+                                  style:
+                                      _style.emptyListTextStyle ??
+                                      TextStyle(
+                                        color: _style.emptyListTextColor,
+                                        fontSize: 20,
+                                      ),
                                 ),
                         )
                       : GridView.builder(
@@ -95,10 +97,12 @@ class _ImageWidgetState extends State<ImageWidget> {
               : Center(
                   child: Text(
                     _labels.noImagesFound,
-                    style: _style.emptyListTextStyle ?? TextStyle(
-                      color: _style.emptyListTextColor,
-                      fontSize: 20,
-                    ),
+                    style:
+                        _style.emptyListTextStyle ??
+                        TextStyle(
+                          color: _style.emptyListTextColor,
+                          fontSize: 20,
+                        ),
                   ),
                 ),
         ),

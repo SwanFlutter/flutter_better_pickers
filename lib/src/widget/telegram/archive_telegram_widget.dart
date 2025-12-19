@@ -128,8 +128,9 @@ class _ArchiveTelegramWidgetState extends State<ArchiveTelegramWidget> {
                           itemBuilder: (context, index) {
                             final archivePath = archiveFiles[index];
                             final fileName = archivePath.split('/').last;
-                            final isSelected =
-                                selectedArchiveFiles.contains(archivePath);
+                            final isSelected = selectedArchiveFiles.contains(
+                              archivePath,
+                            );
 
                             return Container(
                               margin: const EdgeInsets.symmetric(
@@ -228,10 +229,7 @@ class _ArchiveTelegramWidgetState extends State<ArchiveTelegramWidget> {
                   child: CircleAvatar(
                     radius: 40,
                     backgroundColor: Colors.purple,
-                    child: const Icon(
-                      Icons.send,
-                      color: Colors.white,
-                    ),
+                    child: const Icon(Icons.send, color: Colors.white),
                   ),
                 ),
                 Positioned(

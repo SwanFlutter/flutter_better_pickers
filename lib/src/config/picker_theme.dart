@@ -53,79 +53,79 @@ class PickerThemes {
   PickerThemes._();
 
   /// Light theme with English labels
-  static const lightEnglish = _PrebuiltTheme(
+  static const lightEnglish = PrebuiltTheme(
     style: PickerStyle.light,
     labels: PickerLabels.english,
   );
 
   /// Dark theme with English labels
-  static const darkEnglish = _PrebuiltTheme(
+  static const darkEnglish = PrebuiltTheme(
     style: PickerStyle.dark,
     labels: PickerLabels.english,
   );
 
   /// Telegram style with English labels
-  static const telegramEnglish = _PrebuiltTheme(
+  static const telegramEnglish = PrebuiltTheme(
     style: PickerStyle.telegram,
     labels: PickerLabels.english,
   );
 
   /// Instagram style with English labels
-  static const instagramEnglish = _PrebuiltTheme(
+  static const instagramEnglish = PrebuiltTheme(
     style: PickerStyle.instagram,
     labels: PickerLabels.english,
   );
 
   /// WhatsApp style with English labels
-  static const whatsappEnglish = _PrebuiltTheme(
+  static const whatsappEnglish = PrebuiltTheme(
     style: PickerStyle.whatsapp,
     labels: PickerLabels.english,
   );
 
   /// Telegram style with Persian labels
-  static const telegramPersian = _PrebuiltTheme(
+  static const telegramPersian = PrebuiltTheme(
     style: PickerStyle.telegram,
     labels: PickerLabels.persian,
   );
 
   /// Dark theme with Persian labels
-  static const darkPersian = _PrebuiltTheme(
+  static const darkPersian = PrebuiltTheme(
     style: PickerStyle.dark,
     labels: PickerLabels.persian,
   );
 
   /// Dark theme with Arabic labels
-  static const darkArabic = _PrebuiltTheme(
+  static const darkArabic = PrebuiltTheme(
     style: PickerStyle.dark,
     labels: PickerLabels.arabic,
   );
 
   /// Light theme with French labels
-  static const lightFrench = _PrebuiltTheme(
+  static const lightFrench = PrebuiltTheme(
     style: PickerStyle.light,
     labels: PickerLabels.french,
   );
 
   /// Light theme with German labels
-  static const lightGerman = _PrebuiltTheme(
+  static const lightGerman = PrebuiltTheme(
     style: PickerStyle.light,
     labels: PickerLabels.german,
   );
 }
 
 /// Helper class for prebuilt themes
-class _PrebuiltTheme {
+class PrebuiltTheme {
   final PickerStyle style;
   final PickerLabels labels;
 
-  const _PrebuiltTheme({required this.style, required this.labels});
+  const PrebuiltTheme({required this.style, required this.labels});
 }
 
 /// Widget helper to easily wrap your app with a picker theme
 class PickerThemeProvider extends StatelessWidget {
   final PickerStyle? style;
   final PickerLabels? labels;
-  final _PrebuiltTheme? prebuiltTheme;
+  final PrebuiltTheme? prebuiltTheme;
   final Widget child;
 
   /// Create with custom style and labels
@@ -140,7 +140,7 @@ class PickerThemeProvider extends StatelessWidget {
   /// Create with a prebuilt theme
   const PickerThemeProvider.prebuilt({
     super.key,
-    required _PrebuiltTheme theme,
+    required PrebuiltTheme theme,
     required this.child,
   }) : prebuiltTheme = theme,
        style = null,

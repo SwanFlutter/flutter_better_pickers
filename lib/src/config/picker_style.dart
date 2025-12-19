@@ -261,14 +261,16 @@ class PickerStyle {
       emptyListTextColor: emptyListTextColor ?? this.emptyListTextColor,
       snackBarColor: snackBarColor ?? this.snackBarColor,
       dropdownColor: dropdownColor ?? this.dropdownColor,
-      selectionOverlayColor: selectionOverlayColor ?? this.selectionOverlayColor,
+      selectionOverlayColor:
+          selectionOverlayColor ?? this.selectionOverlayColor,
       selectionBadgeColor: selectionBadgeColor ?? this.selectionBadgeColor,
       tabIndicatorColor: tabIndicatorColor ?? this.tabIndicatorColor,
       unselectedTabColor: unselectedTabColor ?? this.unselectedTabColor,
       gridItemBorderColor: gridItemBorderColor ?? this.gridItemBorderColor,
       gridItemBorderRadius: gridItemBorderRadius ?? this.gridItemBorderRadius,
       buttonBorderRadius: buttonBorderRadius ?? this.buttonBorderRadius,
-      bottomSheetBorderRadius: bottomSheetBorderRadius ?? this.bottomSheetBorderRadius,
+      bottomSheetBorderRadius:
+          bottomSheetBorderRadius ?? this.bottomSheetBorderRadius,
       gridPadding: gridPadding ?? this.gridPadding,
       gridSpacing: gridSpacing ?? this.gridSpacing,
       gridCrossAxisCount: gridCrossAxisCount ?? this.gridCrossAxisCount,

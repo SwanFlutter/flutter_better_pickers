@@ -96,10 +96,7 @@ class PickerConfig {
   );
 
   /// Create a copy with modified values
-  PickerConfig copyWith({
-    PickerLabels? labels,
-    PickerStyle? style,
-  }) {
+  PickerConfig copyWith({PickerLabels? labels, PickerStyle? style}) {
     return PickerConfig(
       labels: labels ?? this.labels,
       style: style ?? this.style,

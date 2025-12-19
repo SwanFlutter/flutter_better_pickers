@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_better_pickers/flutter_better_pickers.dart';
 import 'dart:io';
@@ -32,18 +31,18 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> selectedVideos = [];
   List<String> selectedAudio = [];
   List<String> selectedFiles = [];
-  
+
   // GlobalKey for TelegramMediaPickers
   final GlobalKey<TelegramMediaPickersState> _telegramPickerKey = GlobalKey();
-  
+
   // Language selection
   String _selectedLanguage = 'English';
   PickerLabels _currentLabels = PickerLabels.english;
-  
-  // Style selection  
+
+  // Style selection
   String _selectedStyle = 'Light';
   PickerStyle _currentStyle = PickerStyle.light;
-  
+
   final Map<String, PickerLabels> _languages = {
     'English': PickerLabels.english,
     'فارسی': PickerLabels.persian,
@@ -51,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
     'Deutsch': PickerLabels.german,
     'Français': PickerLabels.french,
   };
-  
+
   final Map<String, PickerStyle> _styles = {
     'Light': PickerStyle.light,
     'Dark': PickerStyle.dark,
@@ -85,147 +84,164 @@ class _MyHomePageState extends State<MyHomePage> {
               }
             },
           ),
-          SafeArea(child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Language and Style Selection
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Configuration',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Language and Style Selection
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Configuration',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
                             children: [
-                              const Text('Language:', style: TextStyle(fontSize: 12)),
-                              DropdownButton<String>(
-                                value: _selectedLanguage,
-                                isExpanded: true,
-                                items: _languages.keys.map((lang) {
-                                  return DropdownMenuItem(value: lang, child: Text(lang));
-                                }).toList(),
-                                onChanged: (value) {
-                                  if (value != null) {
-                                    setState(() {
-                                      _selectedLanguage = value;
-                                      _currentLabels = _languages[value]!;
-                                    });
-                                  }
-                                },
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Language:',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    DropdownButton<String>(
+                                      value: _selectedLanguage,
+                                      isExpanded: true,
+                                      items: _languages.keys.map((lang) {
+                                        return DropdownMenuItem(
+                                          value: lang,
+                                          child: Text(lang),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          setState(() {
+                                            _selectedLanguage = value;
+                                            _currentLabels = _languages[value]!;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Style:',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    DropdownButton<String>(
+                                      value: _selectedStyle,
+                                      isExpanded: true,
+                                      items: _styles.keys.map((style) {
+                                        return DropdownMenuItem(
+                                          value: style,
+                                          child: Text(style),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          setState(() {
+                                            _selectedStyle = value;
+                                            _currentStyle = _styles[value]!;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text('Style:', style: TextStyle(fontSize: 12)),
-                              DropdownButton<String>(
-                                value: _selectedStyle,
-                                isExpanded: true,
-                                items: _styles.keys.map((style) {
-                                  return DropdownMenuItem(value: style, child: Text(style));
-                                }).toList(),
-                                onChanged: (value) {
-                                  if (value != null) {
-                                    setState(() {
-                                      _selectedStyle = value;
-                                      _currentStyle = _styles[value]!;
-                                    });
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // 1. Custom Picker Button
+                  _buildPickerButton(
+                    label: '1. Custom Picker (Images & Videos)',
+                    icon: Icons.image,
+                    onPressed: () => _showCustomPicker(),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // 2. Bottom Sheet Button
+                  _buildPickerButton(
+                    label: '2. Bottom Sheet (Images)',
+                    icon: Icons.photo_library,
+                    onPressed: () => _showBottomSheet(),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // 3. Scaffold Bottom Sheet Button
+                  _buildPickerButton(
+                    label: '3. Scaffold Bottom Sheet (Images)',
+                    icon: Icons.collections,
+                    onPressed: () => _showScaffoldBottomSheet(),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // 4. Bottom Sheet Image Selector Button
+                  _buildPickerButton(
+                    label: '4. Bottom Sheet Image Selector',
+                    icon: Icons.image_search,
+                    onPressed: () => _showBottomSheetImageSelector(),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // 5. Instagram Style Picker Button
+                  _buildPickerButton(
+                    label: '5. Instagram Style Picker',
+                    icon: Icons.camera_alt,
+                    onPressed: () => _showInstagramPicker(),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // 6. Telegram Media Picker Button
+                  _buildPickerButton(
+                    label: '6. Telegram Media Picker',
+                    icon: Icons.send,
+                    onPressed: () => _showTelegramPicker(),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Display selected items
+                  if (selectedImages.isNotEmpty) ...[
+                    _buildResultSection('Selected Images', selectedImages),
+                    const SizedBox(height: 16),
                   ],
-                ),
+                  if (selectedVideos.isNotEmpty) ...[
+                    _buildResultSection('Selected Videos', selectedVideos),
+                    const SizedBox(height: 16),
+                  ],
+                  if (selectedAudio.isNotEmpty) ...[
+                    _buildResultSection('Selected Audio', selectedAudio),
+                    const SizedBox(height: 16),
+                  ],
+                  if (selectedFiles.isNotEmpty) ...[
+                    _buildResultSection('Selected Files', selectedFiles),
+                  ],
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-            
-            // 1. Custom Picker Button
-            _buildPickerButton(
-              label: '1. Custom Picker (Images & Videos)',
-              icon: Icons.image,
-              onPressed: () => _showCustomPicker(),
-            ),
-            const SizedBox(height: 12),
-
-            // 2. Bottom Sheet Button
-            _buildPickerButton(
-              label: '2. Bottom Sheet (Images)',
-              icon: Icons.photo_library,
-              onPressed: () => _showBottomSheet(),
-            ),
-            const SizedBox(height: 12),
-
-            // 3. Scaffold Bottom Sheet Button
-            _buildPickerButton(
-              label: '3. Scaffold Bottom Sheet (Images)',
-              icon: Icons.collections,
-              onPressed: () => _showScaffoldBottomSheet(),
-            ),
-            const SizedBox(height: 12),
-
-            // 4. Bottom Sheet Image Selector Button
-            _buildPickerButton(
-              label: '4. Bottom Sheet Image Selector',
-              icon: Icons.image_search,
-              onPressed: () => _showBottomSheetImageSelector(),
-            ),
-            const SizedBox(height: 12),
-
-            // 5. Instagram Style Picker Button
-            _buildPickerButton(
-              label: '5. Instagram Style Picker',
-              icon: Icons.camera_alt,
-              onPressed: () => _showInstagramPicker(),
-            ),
-            const SizedBox(height: 12),
-
-            // 6. Telegram Media Picker Button
-            _buildPickerButton(
-              label: '6. Telegram Media Picker',
-              icon: Icons.send,
-              onPressed: () => _showTelegramPicker(),
-            ),
-            const SizedBox(height: 24),
-
-            // Display selected items
-            if (selectedImages.isNotEmpty) ...[
-              _buildResultSection('Selected Images', selectedImages),
-              const SizedBox(height: 16),
-            ],
-            if (selectedVideos.isNotEmpty) ...[
-              _buildResultSection('Selected Videos', selectedVideos),
-              const SizedBox(height: 16),
-            ],
-            if (selectedAudio.isNotEmpty) ...[
-              _buildResultSection('Selected Audio', selectedAudio),
-              const SizedBox(height: 16),
-            ],
-            if (selectedFiles.isNotEmpty) ...[
-              _buildResultSection('Selected Files', selectedFiles),
-            ],
-          ],
-        ),
-      ),),
+          ),
         ],
       ),
     );
@@ -272,9 +288,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   final item = items[index];
-                  final isImage = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp']
-                      .any((extension) => item.toLowerCase().endsWith(extension));
-                  
+                  final isImage = [
+                    '.jpg',
+                    '.jpeg',
+                    '.png',
+                    '.gif',
+                    '.bmp',
+                    '.webp',
+                  ].any((extension) => item.toLowerCase().endsWith(extension));
+
                   return Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: Container(
@@ -294,13 +316,21 @@ class _MyHomePageState extends State<MyHomePage> {
                                 errorBuilder: (context, error, stackTrace) {
                                   return Center(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        const Icon(Icons.error, color: Colors.red, size: 20),
+                                        const Icon(
+                                          Icons.error,
+                                          color: Colors.red,
+                                          size: 20,
+                                        ),
                                         const SizedBox(height: 4),
                                         Text(
                                           'Error',
-                                          style: const TextStyle(fontSize: 10, color: Colors.red),
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.red,
+                                          ),
                                           textAlign: TextAlign.center,
                                         ),
                                       ],

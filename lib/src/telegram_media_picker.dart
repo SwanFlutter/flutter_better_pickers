@@ -688,8 +688,9 @@ class TelegramMediaPickersState extends State<TelegramMediaPickers>
                               subtitle: Text(
                                 '${albumFileCounts[index]} ${_labels.imagesTab}',
                                 style: TextStyle(
-                                  color: theme.colorScheme.onPrimary
-                                      .withOpacity(0.7),
+                                  color: theme.colorScheme.onPrimary.withValues(
+                                    alpha: 0.7,
+                                  ),
                                 ),
                               ),
                               trailing: isSelected
