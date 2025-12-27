@@ -64,47 +64,16 @@ export 'package:media_manager/media_manager.dart';
 class FlutterBetterPicker extends StatefulWidget {
   final int maxCount;
   final media_services.MyRequestType requestType;
-  final String confirmText;
-  final Color confirmTextColor;
-  final Color textColor;
-  final Color backgroundColor;
-  final Color appbarColor;
-  final Color backBottomColor;
-  final Color iconCameraColor;
-  final Color iconGalleryColor;
-  final Color iconSelectedListAlbumColor;
-  final Color textSelectedListAssetColor;
-  final Color backgroundDropDownColor;
-  final Color nullColorText;
-  final Color? textEmptyListColor;
-  final String textEmptyList;
-  final Widget? loading;
   final CameraImageSettings? cameraImageSettings;
-  final Widget title;
+  final PickerLabels? labels;
+  final PickerStyle? style;
 
   const FlutterBetterPicker({
     required this.maxCount,
     required this.requestType,
-    this.confirmText = 'Send',
-    this.confirmTextColor = Colors.white,
-    this.textColor = Colors.white,
-    this.backgroundColor = const Color(0xFF2A2D3E),
-    this.appbarColor = const Color(0xFF2A2D3E),
-    this.backBottomColor = Colors.white,
-    this.iconCameraColor = Colors.white,
-    this.iconGalleryColor = Colors.white,
-    this.iconSelectedListAlbumColor = Colors.white,
-    this.textSelectedListAssetColor = Colors.white,
-    this.backgroundDropDownColor = Colors.white,
-    this.nullColorText = Colors.white,
-    this.textEmptyListColor = Colors.white,
-    this.textEmptyList = 'No albums found.',
-    this.loading,
     this.cameraImageSettings,
-    this.title = const Text(
-      'Album',
-      style: TextStyle(fontSize: 22, color: Colors.white),
-    ),
+    this.labels,
+    this.style,
     super.key,
   });
 
@@ -298,18 +267,9 @@ class FlutterBetterPicker extends StatefulWidget {
         builder: (context) => FlutterBetterPicker(
           maxCount: maxCount,
           requestType: requestType,
-          appbarColor: appbarColor,
-          backBottomColor: backBottomColor,
-          iconCameraColor: iconCameraColor,
-          iconGalleryColor: iconGalleryColor,
-          iconSelectedListAlbumColor: iconSelectedListAlbumColor,
-          textSelectedListAssetColor: textSelectedListAssetColor,
-          backgroundDropDownColor: backgroundDropDownColor,
-          nullColorText: nullColorText,
-          textColor: textColor,
-          confirmText: confirmText,
-          confirmTextColor: confirmTextColor,
-          backgroundColor: backgroundColor,
+          labels: labels,
+          style: style,
+          cameraImageSettings: cameraImageSettings,
         ),
       ),
     );
@@ -357,6 +317,7 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> {
     setState(() => _isLoading = true);
 
     try {
+      final labels = widget.labels ?? PickerLabels.english;
       final mediaTypeStr = FlutterBetterPicker._getMediaTypeString(
         widget.requestType,
       );
@@ -387,8 +348,8 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> {
       if (mounted) {
         _allMediaPaths = paths;
         _folderMap = grouped;
-        _folderNames = ['All Photos', ...grouped.keys];
-        _selectedFolderNotifier.value = 'All Photos';
+        _folderNames = [labels.allPhotos, ...grouped.keys];
+        _selectedFolderNotifier.value = labels.allPhotos;
         _filteredMediaPathsNotifier.value = paths;
         setState(() => _isLoading = false);
       }
@@ -403,9 +364,10 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> {
   }
 
   void _onFolderChanged(String folder) {
+    final labels = widget.labels ?? PickerLabels.english;
     _selectedFolderNotifier.value = folder;
     _showFolderList = false;
-    if (folder == 'All Photos') {
+    if (folder == labels.allPhotos) {
       _filteredMediaPathsNotifier.value = _allMediaPaths;
     } else {
       _filteredMediaPathsNotifier.value = _folderMap[folder] ?? [];
@@ -450,15 +412,23 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final labels = widget.labels ?? PickerLabels.english;
+    final style = widget.style ?? PickerStyle.dark;
+
     return SafeArea(
       child: Scaffold(
-        backgroundColor: widget.backgroundColor,
+        backgroundColor: style.backgroundColor,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: widget.appbarColor,
-          leading: const BackButton(color: Colors.white),
+          backgroundColor: style.appBarColor,
+          leading: BackButton(color: style.iconColor),
           centerTitle: true,
-          title: widget.title,
+          title: Text(
+            labels.title,
+            style:
+                style.titleTextStyle ??
+                TextStyle(fontSize: 18, color: style.textColor),
+          ),
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 15.0),
@@ -476,25 +446,22 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            backgroundColor: const Color.fromARGB(
-                              255,
-                              39,
-                              36,
-                              36,
-                            ),
+                            backgroundColor: style.snackBarColor,
                             margin: const EdgeInsets.all(15.0),
                             behavior: SnackBarBehavior.floating,
                             shape: BeveledRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            content: const Text("No image selected"),
+                            content: Text(labels.noMediaSelected),
                           ),
                         );
                       }
                     },
                     child: Text(
-                      widget.confirmText,
-                      style: TextStyle(color: widget.confirmTextColor),
+                      labels.confirmButtonText,
+                      style:
+                          style.buttonTextStyle ??
+                          TextStyle(color: style.confirmTextColor),
                     ),
                   );
                 },
@@ -505,7 +472,7 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> {
         body: _isLoading
             ? Center(
                 child:
-                    widget.loading ??
+                    style.loadingWidget ??
                     const CircularProgressIndicator.adaptive(),
               )
             : ValueListenableBuilder<List<String>>(
@@ -529,7 +496,7 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> {
                           return SliverPersistentHeader(
                             pinned: true,
                             delegate: _HeaderDelegate(
-                              selectedFolder: selectedFolder ?? 'Gallery',
+                              selectedFolder: selectedFolder ?? labels.gallery,
                               showFolderList: _showFolderList,
                               onFolderTap: () {
                                 setState(() {
@@ -537,27 +504,30 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> {
                                 });
                               },
                               onCameraTap: _pickFromCamera,
-                              textColor: widget.textSelectedListAssetColor,
-                              iconCameraColor: widget.iconCameraColor,
-                              iconGalleryColor: widget.iconGalleryColor,
+                              textColor: style.textColor,
+                              iconCameraColor: style.iconColor,
+                              iconGalleryColor: style.iconColor,
+                              backgroundColor: style.appBarColor,
                             ),
                           );
                         },
                       ),
                       // لیست پوشه‌ها یا گرید تصاویر
                       if (_showFolderList)
-                        _buildSliverFolderList()
+                        _buildSliverFolderList(labels, style)
                       else if (filteredMediaPaths.isEmpty)
                         SliverFillRemaining(
                           child: Center(
                             child: Text(
-                              widget.textEmptyList,
-                              style: TextStyle(color: widget.nullColorText),
+                              labels.noAlbumsFound,
+                              style:
+                                  style.emptyListTextStyle ??
+                                  TextStyle(color: style.emptyListTextColor),
                             ),
                           ),
                         )
                       else
-                        _buildSliverGrid(filteredMediaPaths),
+                        _buildSliverGrid(filteredMediaPaths, style),
                     ],
                   );
                 },
@@ -566,14 +536,14 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> {
     );
   }
 
-  Widget _buildSliverFolderList() {
+  Widget _buildSliverFolderList(PickerLabels labels, PickerStyle style) {
     return ValueListenableBuilder<String?>(
       valueListenable: _selectedFolderNotifier,
       builder: (context, selectedFolder, child) {
         return SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
             final folder = _folderNames[index];
-            final count = folder == 'All Photos'
+            final count = folder == labels.allPhotos
                 ? _allMediaPaths.length
                 : (_folderMap[folder]?.length ?? 0);
             final isSelected = folder == selectedFolder;
@@ -584,11 +554,12 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> {
               isSelected: isSelected,
               allMediaPaths: _allMediaPaths,
               folderMap: _folderMap,
-              textColor: widget.textColor,
-              iconSelectedColor: widget.iconSelectedListAlbumColor,
+              textColor: style.textColor,
+              iconSelectedColor: style.primaryColor,
               requestType: widget.requestType,
               mediaManager: _mediaManager,
               onTap: () => _onFolderChanged(folder),
+              labels: labels,
             );
           }, childCount: _folderNames.length),
         );
@@ -596,12 +567,12 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> {
     );
   }
 
-  Widget _buildSliverGrid(List<String> filteredMediaPaths) {
+  Widget _buildSliverGrid(List<String> filteredMediaPaths, PickerStyle style) {
     return SliverGrid(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-        mainAxisSpacing: 1,
-        crossAxisSpacing: 1,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: style.gridCrossAxisCount,
+        mainAxisSpacing: style.gridSpacing,
+        crossAxisSpacing: style.gridSpacing,
       ),
       delegate: SliverChildBuilderDelegate((context, index) {
         final path = filteredMediaPaths[index];
@@ -612,6 +583,7 @@ class _FlutterBetterPickerState extends State<FlutterBetterPicker> {
           requestType: widget.requestType,
           mediaManager: _mediaManager,
           onTap: () => _toggleSelection(path),
+          style: style,
         );
       }, childCount: filteredMediaPaths.length),
     );
@@ -662,6 +634,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   final Color textColor;
   final Color iconCameraColor;
   final Color iconGalleryColor;
+  final Color backgroundColor;
 
   _HeaderDelegate({
     required this.selectedFolder,
@@ -671,6 +644,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     required this.textColor,
     required this.iconCameraColor,
     required this.iconGalleryColor,
+    required this.backgroundColor,
   });
 
   @override
@@ -680,7 +654,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     bool overlapsContent,
   ) {
     return DecoratedBox(
-      decoration: const BoxDecoration(color: Color(0xFF212332)),
+      decoration: BoxDecoration(color: backgroundColor),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
         child: Row(
@@ -743,6 +717,7 @@ class _FolderListItem extends StatelessWidget {
   final media_services.MyRequestType requestType;
   final MediaManager mediaManager;
   final VoidCallback onTap;
+  final PickerLabels labels;
 
   const _FolderListItem({
     required this.folder,
@@ -755,6 +730,7 @@ class _FolderListItem extends StatelessWidget {
     required this.requestType,
     required this.mediaManager,
     required this.onTap,
+    required this.labels,
   });
 
   @override
@@ -769,7 +745,7 @@ class _FolderListItem extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: folder == 'All Photos' && allMediaPaths.isNotEmpty
+          child: folder == labels.allPhotos && allMediaPaths.isNotEmpty
               ? _MediaPreview(
                   path: allMediaPaths.first,
                   requestType: requestType,
@@ -808,6 +784,7 @@ class _GridItem extends StatelessWidget {
   final media_services.MyRequestType requestType;
   final MediaManager mediaManager;
   final VoidCallback onTap;
+  final PickerStyle style;
 
   const _GridItem({
     super.key,
@@ -816,6 +793,7 @@ class _GridItem extends StatelessWidget {
     required this.requestType,
     required this.mediaManager,
     required this.onTap,
+    required this.style,
   });
 
   @override
@@ -842,7 +820,9 @@ class _GridItem extends StatelessWidget {
               return Stack(
                 children: [
                   Container(
-                    color: isSelected ? Colors.white60 : Colors.transparent,
+                    color: isSelected
+                        ? style.selectionOverlayColor
+                        : Colors.transparent,
                   ),
                   if (isSelected)
                     Positioned(
@@ -850,15 +830,15 @@ class _GridItem extends StatelessWidget {
                       right: 5,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.blue,
+                          color: style.selectionBadgeColor,
                           shape: BoxShape.circle,
                           border: Border.all(color: Colors.white, width: 1.5),
                         ),
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "$selectedIndex",
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: style.confirmTextColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

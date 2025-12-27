@@ -11,22 +11,66 @@ import 'package:flutter_saver/flutter_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+/// A bottom sheet widget for selecting media files with scaffold structure.
+///
+/// This widget provides a full-screen bottom sheet interface for selecting
+/// images, videos, or other media types from device storage.
+///
+/// Example:
+/// ```dart
+/// ScaffoldBottomSheet(
+///   maxCount: 5,
+///   requestType: MyRequestType.image,
+///   labels: PickerLabels.english,
+///   style: PickerStyle.light,
+/// )
+/// ```
 class ScaffoldBottomSheet extends StatefulWidget {
+  /// Maximum number of media items that can be selected
   final int maxCount;
+
+  /// Type of media to display (image, video, audio, etc.)
   final MyRequestType requestType;
+
+  /// @deprecated Use [labels.confirmButtonText] instead
+  /// Text for the confirm button
   final String confirmText;
+
+  /// @deprecated Use [labels.noAlbumsFound] instead
+  /// Text to display when no media is found
   final String textEmptyList;
+
+  /// @deprecated Use [style.confirmButtonColor] instead
+  /// Background color for the confirm button
   final Color? confirmButtonColor;
+
+  /// @deprecated Use [style.confirmTextColor] instead
+  /// Text color for the confirm button
   final Color confirmTextColor;
+
+  /// @deprecated Use [style.backgroundColor] instead
+  /// Background color of the bottom sheet
   final Color? backgroundColor;
+
+  /// @deprecated Use [style.emptyListTextColor] instead
+  /// Text color for empty list message
   final Color? textEmptyListColor;
+
+  /// @deprecated Use [style.snackBarColor] instead
+  /// Background color for snackbar messages
   final Color? backgroundSnackBarColor;
+
+  /// Camera image settings for quality and dimensions
   final CameraImageSettings? cameraImageSettings;
 
-  /// Labels for internationalization
+  /// Labels for internationalization.
+  /// Use predefined labels like [PickerLabels.english], [PickerLabels.persian],
+  /// or create custom labels.
   final PickerLabels? labels;
 
-  /// Style configuration
+  /// Style configuration for colors, sizes, and widgets.
+  /// Use predefined styles like [PickerStyle.light], [PickerStyle.dark],
+  /// [PickerStyle.telegram], or create custom styles.
   final PickerStyle? style;
 
   const ScaffoldBottomSheet({

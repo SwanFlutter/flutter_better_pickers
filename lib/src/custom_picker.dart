@@ -9,17 +9,46 @@ import 'package:flutter_better_pickers/src/config/media_manager_config.dart';
 import 'package:flutter_better_pickers/src/tools/media_manager_wrapper.dart';
 import 'package:media_manager/media_manager.dart';
 
+/// A custom media picker widget with tabbed interface.
+///
+/// This widget provides a tabbed interface for selecting images and videos
+/// separately, with customizable labels and styling.
+///
+/// Example:
+/// ```dart
+/// CustomPicker(
+///   maxCount: 10,
+///   requestType: MyRequestType.all,
+///   showOnlyImage: true,
+///   showOnlyVideo: true,
+///   labels: PickerLabels.persian,
+///   style: PickerStyle.telegram,
+/// )
+/// ```
 class CustomPicker extends StatefulWidget {
+  /// Maximum number of media items that can be selected
   final int maxCount;
+
+  /// Type of media to display (image, video, audio, etc.)
   final MyRequestType requestType;
+
+  /// Whether to show video tab (default: true)
   final bool showOnlyVideo;
+
+  /// Whether to show image tab (default: true)
   final bool showOnlyImage;
+
+  /// Camera image settings for quality and dimensions
   final CameraImageSettings? cameraImageSettings;
 
-  /// Labels for internationalization
+  /// Labels for internationalization.
+  /// Use predefined labels like [PickerLabels.english], [PickerLabels.chinese],
+  /// or create custom labels.
   final PickerLabels? labels;
 
-  /// Style configuration
+  /// Style configuration for colors, sizes, and widgets.
+  /// Use predefined styles like [PickerStyle.instagram], [PickerStyle.whatsapp],
+  /// or create custom styles.
   final PickerStyle? style;
 
   const CustomPicker({

@@ -1,3 +1,25 @@
+## 0.0.8
+
+* **Breaking Changes:**
+  * Refactored all picker widgets to use `PickerLabels` and `PickerStyle` for better consistency.
+  * Deprecated individual styling properties in favor of centralized `style` parameter.
+  * Deprecated individual text properties in favor of centralized `labels` parameter.
+
+* **New Features:**
+  * Added 8 new languages to `PickerLabels`: Spanish, Italian, Russian, Turkish, Chinese (Simplified), Japanese, Korean, and Hindi.
+  * Added comprehensive documentation to all picker widgets (`ScaffoldBottomSheet`, `CustomPicker`, `BottomSheets`, `BottomSheetImageSelector`).
+  * All deprecated properties now have `@deprecated` annotations with migration guidance.
+
+* **Improvements:**
+  * Improved code maintainability by centralizing styling and localization.
+  * Enhanced developer experience with detailed inline documentation and examples.
+  * Better separation of concerns between UI styling and business logic.
+
+* **Migration Guide:**
+  * Replace individual color/text properties with `labels` and `style` parameters.
+  * Use predefined styles: `PickerStyle.light`, `PickerStyle.dark`, `PickerStyle.telegram`, `PickerStyle.instagram`, `PickerStyle.whatsapp`.
+  * Use predefined labels: `PickerLabels.english`, `PickerLabels.persian`, `PickerLabels.arabic`, etc.
+
 ## 0.0.7
 
 * Update README.md

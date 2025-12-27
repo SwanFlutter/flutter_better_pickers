@@ -455,11 +455,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final picker = FlutterBetterPicker(
       maxCount: 5,
       requestType: MyRequestType.image,
-      confirmText: 'Send',
-      confirmTextColor: Colors.white,
-      backgroundColor: const Color(0xFF2A2D3E),
-      appbarColor: const Color(0xFF2A2D3E),
-      textColor: Colors.white,
+      labels: PickerLabels.persian,
+      style: PickerStyle.instagram,
     );
 
     final result = await picker.instagram(context);

@@ -7,27 +7,84 @@ import 'package:flutter_better_pickers/src/tools/media_manager_wrapper.dart';
 import 'package:flutter_saver/flutter_saver.dart';
 import 'package:image_picker/image_picker.dart';
 
-/// A stateful widget that displays a bottom sheet for selecting images.
+/// A bottom sheet widget for selecting images with preview functionality.
+///
+/// This widget displays a large preview of the selected image at the top,
+/// with a grid of thumbnails below for selection. Ideal for Instagram-style
+/// image selection interfaces.
+///
+/// Example:
+/// ```dart
+/// BottomSheetImageSelector(
+///   maxCount: 10,
+///   requestType: MyRequestType.image,
+///   labels: PickerLabels.spanish,
+///   style: PickerStyle.instagram,
+/// )
+/// ```
 class BottomSheetImageSelector extends StatefulWidget {
+  /// Maximum number of media items that can be selected
   final int maxCount;
+
+  /// Type of media to display (image, video, audio, etc.)
   final MyRequestType requestType;
+
+  /// @deprecated Use [labels.confirmButtonText] instead
+  /// Text for the confirm button
   final String confirmText;
+
+  /// @deprecated Use [labels.noAlbumsFound] instead
+  /// Text to display when no media is found
   final String textEmptyList;
+
+  /// @deprecated Use [style.confirmButtonColor] instead
+  /// Background color for the confirm button
   final Color? confirmButtonColor;
+
+  /// @deprecated Use [style.confirmTextColor] instead
+  /// Text color for the confirm button
   final Color confirmTextColor;
+
+  /// @deprecated Use [style.backgroundColor] instead
+  /// Background color of the bottom sheet
   final Color? backgroundColor;
+
+  /// @deprecated Use [style.emptyListTextColor] instead
+  /// Text color for empty list message
   final Color? textEmptyListColor;
+
+  /// @deprecated Use [style.snackBarColor] instead
+  /// Background color for snackbar messages
   final Color? backgroundSnackBarColor;
+
+  /// @deprecated Use [style.dropdownColor] instead
+  /// Background color for the dropdown
   final Color? dropdownColor;
+
+  /// @deprecated Use [style.dropdownTextStyle] instead
+  /// Text style for dropdown items
   final TextStyle textStyleDropdown;
+
+  /// @deprecated Use [style.cameraIcon] instead
+  /// Custom icon widget for camera button
   final Widget iconCamera;
+
+  /// @deprecated Use [style.loadingWidget] instead
+  /// Custom loading widget
   final Widget? loading;
+
+  /// Camera image settings for quality and dimensions
   final CameraImageSettings? cameraImageSettings;
 
-  /// Labels for internationalization
+  /// Labels for internationalization.
+  /// Use predefined labels like [PickerLabels.italian], [PickerLabels.russian],
+  /// [PickerLabels.turkish], [PickerLabels.japanese], [PickerLabels.korean],
+  /// [PickerLabels.hindi], or create custom labels.
   final PickerLabels? labels;
 
-  /// Style configuration
+  /// Style configuration for colors, sizes, and widgets.
+  /// Use predefined styles like [PickerStyle.telegram], [PickerStyle.whatsapp],
+  /// or create custom styles.
   final PickerStyle? style;
 
   const BottomSheetImageSelector({
