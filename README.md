@@ -27,7 +27,7 @@ import 'package:flutter_better_pickers/flutter_better_pickers.dart';
 ```yaml
 
   dependencies:
-  flutter_better_pickers: ^0.0.6
+  flutter_better_pickers: ^0.0.7
        
        
 ```
@@ -46,20 +46,19 @@ import 'package:flutter_better_pickers/flutter_better_pickers.dart';
 
 
 ```dart
- List<AssetEntity> selectedAssetList = [];
+ List<String> selectedMediaPaths = [];
 
   ElevatedButton(
         onPressed: ()  {
-           var picker = const FlutterBetterPickers(
+           var picker = const FlutterBetterPicker(
                 maxCount: 5,
                 requestType: MyRequestType.image,
               ).instagram(context);
             picker.then((value) {
-             selectedAssetList = value;
-          convertToFileList();
+             selectedMediaPaths = value;
         });
        },
-    child: const Text("Instgram picker"),
+    child: const Text("Instagram picker"),
  ),
 
 ```
@@ -68,12 +67,11 @@ import 'package:flutter_better_pickers/flutter_better_pickers.dart';
 
 ```dart
   onPressed: () {
-          const FlutterBetterPickers(maxCount: 10, requestType: MyRequestType.image)
+          const FlutterBetterPicker(maxCount: 10, requestType: MyRequestType.image)
            .instagram(context)
           .then((onValue) {
          setState(() {
-         selectedAssetList = onValue;
-         convertToFileList();
+         selectedMediaPaths = onValue;
      });
    });
 },
@@ -88,15 +86,18 @@ import 'package:flutter_better_pickers/flutter_better_pickers.dart';
 ```dart
 ElevatedButton(
             onPressed: () {
-                  var picker = const CustomPicker(
-                     maxCount: 5,
-                    requestType: MyRequestType.image,
-                 ).getPicAssets(context);
-               picker.then((value) {
-            selectedAssetList = value;
-          convertToFileList();
-      });
-    })
+              FlutterBetterPicker.customPicker(
+                context: context,
+                maxCount: 5,
+                requestType: MyRequestType.image,
+              ).then((value) {
+                setState(() {
+                  selectedMediaPaths = value;
+                });
+              });
+            },
+            child: const Text("Custom Picker"),
+          )
 ```
 
 
@@ -109,16 +110,14 @@ ElevatedButton(
 ```dart
 ElevatedButton(
                 onPressed: () {
-                  var picker = FlutterBetterPickers.bottomSheets(
+                  FlutterBetterPicker.bottomSheets(
                     context: context,
                     maxCount: 5,
                     requestType: MyRequestType.image,
-                  );
-                  picker.then(
+                  ).then(
                     (value) {
                       setState(() {
-                        selectedAssetList = value;
-                        convertToFileList(); // تبدیل AssetEntity به فایل‌ها
+                        selectedMediaPaths = value;
                       });
                     },
                   );
@@ -181,11 +180,12 @@ TelegramMediaPickers(
 ```
 
 - Complete Example
-  Here's a complete example of how to implement the TelegramMediaPickers in your Flutter app. This example shows how to select media files, convert them to a list of File, and prepare them for database storage.
+  Here's a complete example of how to implement the TelegramMediaPickers in your Flutter app. This example shows how to select media files and handle them.
 
 ```dart
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:telegram_media_pickers/telegram_media_pickers.dart';
+import 'package:flutter_better_pickers/flutter_better_pickers.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -199,22 +199,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<TelegramMediaPickersState> _sheetKey = GlobalKey();
   
-  List<File>? imageFiles = [];
-  List<AssetEntity> selectedAssetList = [];
-
-  void convertToFileList() async {
-    List<File>? files = [];
-
-    for (var asset in selectedAssetList) {
-      final file = await asset.file; // Convert AssetEntity to File
-      if (file != null) {
-        files.add(file);
-      }
-    }
-    setState(() {
-      imageFiles = files; // Update the state with the list of files
-    });
-  }
+  List<String> selectedMediaPaths = [];
+  List<File> selectedFiles = [];
 
   @override
   Widget build(BuildContext context) {
@@ -246,13 +232,16 @@ class _MyHomePageState extends State<MyHomePage> {
             primeryColor: Colors.green,
             isRealCameraView: false,
             onMediaPicked: (assets, files) {
-              // Update the selectedAssetList
               if (assets != null) {
-                selectedAssetList = assets;
-                convertToFileList(); // Convert selected assets to files
+                setState(() {
+                  selectedMediaPaths = assets;
+                });
               }
 
               if (files != null) {
+                setState(() {
+                  selectedFiles = files;
+                });
                 for (var file in files) {
                   debugPrint(file.path); // Print the path of selected files
                 }
@@ -274,9 +263,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 ```dart
-elevatedButton(
+ElevatedButton(
  onPressed: () async {
- await FlutterBetterPickers.scaffoldBottomSheet(
+ await FlutterBetterPicker.scaffoldBottomSheet(
  context: context,
  maxCount: 5,
  requestType: MyRequestType.image,
@@ -288,8 +277,9 @@ elevatedButton(
  textEmptyListColor: Colors.grey,
  backgroundSnackBarColor: Colors.red,
  ).then((value) {
- selectedAssetList = value;
- convertToFileList();
+ setState(() {
+   selectedMediaPaths = value;
+ });
  });
  },
  child: const Text("scaffoldBottomSheet"),
@@ -303,10 +293,9 @@ elevatedButton(
 
 
 ```dart
-
-elevatedButton(
+ElevatedButton(
  onPressed: () async {
- await FlutterBetterPickers.bottomSheetImageSelector(
+ await FlutterBetterPicker.bottomSheetImageSelector(
  cameraImageSettings: CameraImageSettings(),
  context: context,
  maxCount: 5,
@@ -319,14 +308,13 @@ elevatedButton(
  textEmptyListColor: Colors.grey,
  backgroundSnackBarColor: Colors.red,
  ).then((value) {
- selectedAssetList = value;
- convertToFileList();
+ setState(() {
+   selectedMediaPaths = value;
+ });
  });
  },
  child: const Text("bottomSheetImageSelector"),
  ),
-
-
 ```
 
 
